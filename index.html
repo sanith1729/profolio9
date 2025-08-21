@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>buildfree.io - Professional Portfolio Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --color-primary: #1a1a1a;
+          --color-primary-dark: #000000;
+          --color-secondary: #f8f9fa;
+          --color-accent: #e9ecef;
+          --color-body: #ffffff;
+          --color-white: #ffffff;
+          --color-text: #1a1a1a;
+          --color-text-light: #6c757d;
+          --color-text-muted: #adb5bd;
+          --color-border: #dee2e6;
+          --color-border-light: #f1f3f4;
+          --color-success: #198754;
+          --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          --spacing-xs: 0.25rem;
+          --spacing-sm: 0.5rem;
+          --spacing-md: 1rem;
+          --spacing-lg: 1.5rem;
+          --spacing-xl: 2rem;
+          --spacing-2xl: 3rem;
+          --spacing-3xl: 4rem;
+          --radius-sm: 0.375rem;
+          --radius-md: 0.5rem;
+          --radius-lg: 0.75rem;
+          --radius-xl: 1rem;
+          --transition-base: all 0.15s ease;
+        }
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: var(--font-primary);
+          color: var(--color-text);
+          background-color: var(--color-body);
+          line-height: 1.5;
+          font-size: 0.875rem;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(8px);
+          border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .header-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 4rem;
+        }
+
+        .logo {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: var(--color-text);
+          text-decoration: none;
+          letter-spacing: -0.025em;
+        }
+
+        .nav {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+        }
+
+        .nav-link {
+          font-size: 0.875rem;
+          color: var(--color-text-light);
+          text-decoration: none;
+          font-weight: 400;
+          transition: var(--transition-base);
+        }
+
+        .nav-link:hover {
+          color: var(--color-text);
+        }
+
+        .nav-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          font-weight: 500;
+          line-height: 1;
+          text-decoration: none;
+          transition: var(--transition-base);
+          cursor: pointer;
+          border: none;
+          white-space: nowrap;
+        }
+
+        .btn-sm {
+          height: 2.25rem;
+          padding: 0 1rem;
+        }
+
+        .btn-md {
+          height: 2.5rem;
+          padding: 0 1.25rem;
+        }
+
+        .btn-lg {
+          height: 3rem;
+          padding: 0 1.5rem;
+          font-size: 1rem;
+        }
+
+        .btn-primary {
+          background-color: var(--color-primary);
+          color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+          background-color: var(--color-primary-dark);
+          transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+          background-color: transparent;
+          color: var(--color-text-light);
+          border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+          background-color: var(--color-secondary);
+          color: var(--color-text);
+        }
+
+        /* Main content */
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+        }
+
+        .hero {
+          padding: 5rem 0 4rem;
+          text-align: center;
+        }
+
+        .hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          background-color: var(--color-secondary);
+          color: var(--color-text-light);
+          padding: 0.375rem 0.75rem;
+          border-radius: 9999px;
+          font-size: 0.8125rem;
+          font-weight: 500;
+          margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+          font-size: 3rem;
+          font-weight: 700;
+          color: var(--color-text);
+          line-height: 1.1;
+          letter-spacing: -0.025em;
+          margin-bottom: 1.5rem;
+          max-width: 800px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .hero-description {
+          font-size: 1.125rem;
+          color: var(--color-text-light);
+          line-height: 1.6;
+          margin-bottom: 2.5rem;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .hero-actions {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 3rem;
+        }
+
+        .hero-stats {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+          font-size: 0.8125rem;
+          color: var(--color-text-muted);
+        }
+
+        .hero-stats span {
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+        }
+
+        .check-icon {
+          width: 1rem;
+          height: 1rem;
+          color: var(--color-success);
+        }
+
+        /* Features grid */
+        .features {
+          padding: 4rem 0;
+          background-color: var(--color-secondary);
+        }
+
+        .features-header {
+          text-align: center;
+          margin-bottom: 3rem;
+        }
+
+        .features-title {
+          font-size: 2rem;
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: 1rem;
+          letter-spacing: -0.025em;
+        }
+
+        .features-description {
+          font-size: 1rem;
+          color: var(--color-text-light);
+          max-width: 500px;
+          margin: 0 auto;
+        }
+
+        .features-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+
+        .feature-card {
+          background-color: var(--color-white);
+          border-radius: var(--radius-lg);
+          padding: 1.5rem;
+          border: 1px solid var(--color-border-light);
+          transition: var(--transition-base);
+        }
+
+        .feature-card:hover {
+          box-shadow: var(--shadow-md);
+          border-color: var(--color-border);
+          transform: translateY(-2px);
+        }
+
+        .feature-icon {
+          width: 2.5rem;
+          height: 2.5rem;
+          background-color: var(--color-primary);
+          border-radius: var(--radius-md);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1rem;
+        }
+
+        .feature-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+          font-size: 0.875rem;
+          color: var(--color-text-light);
+          line-height: 1.5;
+        }
+
+        /* Templates showcase */
+        .templates {
+          padding: 4rem 0;
+        }
+
+        .templates-header {
+          text-align: center;
+          margin-bottom: 3rem;
+        }
+
+        .templates-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2.5rem;
+        }
+
+        .template-card {
+          background-color: var(--color-white);
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--color-border-light);
+          overflow: hidden;
+          transition: var(--transition-base);
+        }
+
+        .template-card:hover {
+          box-shadow: var(--shadow-lg);
+          transform: translateY(-4px);
+        }
+
+        .template-image {
+          width: 100%;
+          height: 200px;
+          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--color-text-light);
+          font-weight: 500;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .template-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .template-content {
+          padding: 1.25rem;
+        }
+
+        .template-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: 0.375rem;
+        }
+
+        .template-description {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+          margin-bottom: 1rem;
+        }
+
+        .template-tags {
+          display: flex;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .template-tag {
+          background-color: var(--color-secondary);
+          color: var(--color-text-light);
+          padding: 0.25rem 0.5rem;
+          border-radius: var(--radius-sm);
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+
+        /* Pricing */
+        .pricing {
+          padding: 4rem 0;
+          background-color: var(--color-secondary);
+        }
+
+        .pricing-container {
+          max-width: 600px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .pricing-header {
+          margin-bottom: 2.5rem;
+        }
+
+        .pricing-card {
+          background-color: var(--color-white);
+          border-radius: var(--radius-xl);
+          padding: 2rem;
+          border: 1px solid var(--color-border-light);
+          box-shadow: var(--shadow-md);
+        }
+
+        .pricing-badge {
+          background-color: var(--color-primary);
+          color: var(--color-white);
+          padding: 0.375rem 0.75rem;
+          border-radius: 9999px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          margin-bottom: 1.5rem;
+          display: inline-block;
+        }
+
+        .pricing-amount {
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+          gap: 0.25rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .pricing-currency {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: var(--color-text);
+        }
+
+        .pricing-value {
+          font-size: 3.5rem;
+          font-weight: 700;
+          color: var(--color-text);
+          line-height: 1;
+        }
+
+        .pricing-period {
+          font-size: 1rem;
+          color: var(--color-text-light);
+          margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+          list-style: none;
+          margin-bottom: 2rem;
+        }
+
+        .pricing-feature {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.5rem 0;
+          font-size: 0.875rem;
+          color: var(--color-text-light);
+        }
+
+        .pricing-feature svg {
+          color: var(--color-success);
+          flex-shrink: 0;
+        }
+
+        /* CTA */
+        .cta {
+          padding: 4rem 0;
+          text-align: center;
+        }
+
+        .cta-title {
+          font-size: 2rem;
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: 1rem;
+          letter-spacing: -0.025em;
+        }
+
+        .cta-description {
+          font-size: 1rem;
+          color: var(--color-text-light);
+          margin-bottom: 2rem;
+          max-width: 500px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+          background-color: var(--color-primary);
+          color: var(--color-white);
+          padding: 2.5rem 0 1.5rem;
+        }
+
+        .footer-content {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+          font-size: 0.875rem;
+          font-weight: 600;
+          margin-bottom: 1rem;
+          color: var(--color-white);
+        }
+
+        .footer-links {
+          list-style: none;
+        }
+
+        .footer-links li {
+          margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+          color: rgba(255, 255, 255, 0.7);
+          text-decoration: none;
+          font-size: 0.8125rem;
+          transition: var(--transition-base);
+        }
+
+        .footer-links a:hover {
+          color: var(--color-white);
+        }
+
+        .footer-bottom {
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          padding-top: 1.5rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.8125rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .hero-title {
+            font-size: 2.25rem;
+          }
+          
+          .hero-description {
+            font-size: 1rem;
+          }
+          
+          .hero-actions {
+            flex-direction: column;
+          }
+          
+          .hero-stats {
+            flex-direction: column;
+            gap: 1rem;
+          }
+          
+          .nav {
+            display: none;
+          }
+          
+          .features-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .templates-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .container {
+            padding: 0 1rem;
+          }
+          
+          .header-container {
+            padding: 0 1rem;
+          }
+          
+          .hero {
+            padding: 3rem 0 2rem;
+          }
+          
+          .features,
+          .templates,
+          .pricing,
+          .cta {
+            padding: 3rem 0;
+          }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">buildfree.io</a>
+            
+            <nav class="nav">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#templates" class="nav-link">Templates</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#" class="nav-link">Examples</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="dashboard.html?mode=login" class="btn btn-secondary btn-sm">Sign In</a>
+                <a href="dashboard.html?mode=signup" class="btn btn-primary btn-sm">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Trusted by 10,000+ professionals
+            </div>
+            
+            <h1 class="hero-title">
+                Build a portfolio that gets you hired
+            </h1>
+            
+            <p class="hero-description">
+                Create a professional portfolio website in minutes. Showcase your work with beautiful templates designed by experts, optimized for performance and built to convert.
+            </p>
+            
+            <div class="hero-actions">
+                <a href="dashboard.html?mode=signup" class="btn btn-primary btn-lg">Start Building Now</a>
+                <a href="#" class="btn btn-secondary btn-lg">View Examples</a>
+            </div>
+            
+            <div class="hero-stats">
+                <span>
+                    <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    No design skills needed
+                </span>
+                <span>
+                    <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Ready in 10 minutes
+                </span>
+                <span>
+                    <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Mobile optimized
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="features-header">
+                <h2 class="features-title">Everything you need to stand out</h2>
+                <p class="features-description">Professional tools and beautiful designs that help showcase your work in the best light.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" fill="white" viewBox="0 0 20 20">
+                            <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Professional Templates</h3>
+                    <p class="feature-description">Choose from expertly designed templates crafted by professional designers. Each template is optimized for different industries and career stages.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" fill="white" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Responsive Design</h3>
+                    <p class="feature-description">Your portfolio looks perfect on every device. Our responsive designs ensure your work shines on desktop, tablet, and mobile.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" fill="white" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">No Coding Required</h3>
+                    <p class="feature-description">Focus on your content, not code. Our intuitive editor makes it easy to customize your portfolio without any technical knowledge.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" fill="white" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029C10.792 13.807 10.304 14 10 14c-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472c.08-.185.167-.36.264-.521z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">SEO Optimized</h3>
+                    <p class="feature-description">Built-in SEO optimization helps your portfolio rank higher in search results, making it easier for clients and employers to find you.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" fill="white" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Secure & Fast</h3>
+                    <p class="feature-description">SSL security and lightning-fast loading speeds give your visitors confidence and keep them engaged with your content.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" fill="white" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Always Updated</h3>
+                    <p class="feature-description">Automatic updates and new features ensure your portfolio stays current with the latest design trends and web standards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates -->
+    <section id="templates" class="templates">
+        <div class="container">
+            <div class="templates-header">
+                <h2 class="features-title">Templates designed for success</h2>
+                <p class="features-description">Each template is crafted by professional designers and optimized for different industries.</p>
+            </div>
+            
+            <div class="templates-grid">
+                <div class="template-card">
+                    <div class="template-image">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&crop=face" alt="Creative portfolio template" />
+                    </div>
+                    <div class="template-content">
+                        <h3 class="template-title">Creative</h3>
+                        <p class="template-description">Perfect for designers, artists, and creative professionals who want to showcase visual work.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">Design</span>
+                            <span class="template-tag">Photography</span>
+                            <span class="template-tag">Art</span>
+                        </div>
+                        <a href="dashboard.html?mode=signup&template=creative" class="btn btn-primary btn-sm">Choose Template</a>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-image">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=200&fit=crop&crop=top" alt="Professional portfolio template" />
+                    </div>
+                    <div class="template-content">
+                        <h3 class="template-title">Professional</h3>
+                        <p class="template-description">Clean and sophisticated design ideal for consultants, executives, and business professionals.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">Business</span>
+                            <span class="template-tag">Consulting</span>
+                            <span class="template-tag">Corporate</span>
+                        </div>
+                        <a href="dashboard.html?mode=signup&template=professional" class="btn btn-primary btn-sm">Choose Template</a>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop&crop=center" alt="Developer portfolio template" />
+                    </div>
+                    <div class="template-content">
+                        <h3 class="template-title">Developer</h3>
+                        <p class="template-description">Technical and modern design optimized for showcasing code projects and technical skills.</p>
+                        <div class="template-tags">
+                            <span class="template-tag">Development</span>
+                            <span class="template-tag">Tech</span>
+                            <span class="template-tag">Engineering</span>
+                        </div>
+                        <a href="dashboard.html?mode=signup&template=developer" class="btn btn-primary btn-sm">Choose Template</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="dashboard.html?mode=signup" class="btn btn-secondary btn-md">View All Templates</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="pricing-container">
+                <div class="pricing-header">
+                    <h2 class="features-title">Simple, transparent pricing</h2>
+                    <p class="features-description">Everything you need to build a professional portfolio that gets results.</p>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-badge">Professional Plan</div>
+                    
+                    <div class="pricing-amount">
+                        <span class="pricing-currency">$</span>
+                        <span class="pricing-value">12</span>
+                    </div>
+                    <p class="pricing-period">per month</p>
+                    
+                    <ul class="pricing-features">
+                        <li class="pricing-feature">
+                            <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Unlimited projects and pages
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Professional templates
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Custom domain connection
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            SSL security & fast hosting
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            SEO optimization tools
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Analytics and insights
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Priority email support
+                        </li>
+                        <li class="pricing-feature">
+                            <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            30-day money-back guarantee
+                        </li>
+                    </ul>
+                    
+                    <a href="dashboard.html?mode=signup" class="btn btn-primary btn-lg" style="width: 100%;">Start Your 14-Day Free Trial</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h2 class="cta-title">Ready to build your portfolio?</h2>
+            <p class="cta-description">Join thousands of professionals who have advanced their careers with buildfree.io</p>
+            <a href="dashboard.html?mode=signup" class="btn btn-primary btn-lg">Get Started Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Examples</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Portfolio Tips</a></li>
+                        <li><a href="#">Career Advice</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 buildfree.io. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
