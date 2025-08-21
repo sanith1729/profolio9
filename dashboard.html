@@ -1,0 +1,2256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - buildfree.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --color-primary: #1a1a1a;
+          --color-primary-dark: #000000;
+          --color-secondary: #f8f9fa;
+          --color-accent: #e9ecef;
+          --color-body: #ffffff;
+          --color-white: #ffffff;
+          --color-text: #1a1a1a;
+          --color-text-light: #6c757d;
+          --color-text-muted: #adb5bd;
+          --color-border: #dee2e6;
+          --color-border-light: #f1f3f4;
+          --color-success: #198754;
+          --color-warning: #f59e0b;
+          --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          --spacing-xs: 0.25rem;
+          --spacing-sm: 0.5rem;
+          --spacing-md: 1rem;
+          --spacing-lg: 1.5rem;
+          --spacing-xl: 2rem;
+          --spacing-2xl: 3rem;
+          --spacing-3xl: 4rem;
+          --radius-sm: 0.375rem;
+          --radius-md: 0.5rem;
+          --radius-lg: 0.75rem;
+          --radius-xl: 1rem;
+          --transition-base: all 0.15s ease;
+        }
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: var(--font-primary);
+          color: var(--color-text);
+          background-color: var(--color-body);
+          line-height: 1.5;
+          font-size: 0.875rem;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(8px);
+          border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .header-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 4rem;
+        }
+
+        .logo {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: var(--color-text);
+          text-decoration: none;
+          letter-spacing: -0.025em;
+        }
+
+        .nav {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+        }
+
+        .nav-link {
+          font-size: 0.875rem;
+          color: var(--color-text-light);
+          text-decoration: none;
+          font-weight: 400;
+          transition: var(--transition-base);
+        }
+
+        .nav-link:hover {
+          color: var(--color-text);
+        }
+
+        .nav-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          font-weight: 500;
+          line-height: 1;
+          text-decoration: none;
+          transition: var(--transition-base);
+          cursor: pointer;
+          border: none;
+          white-space: nowrap;
+        }
+
+        .btn-sm {
+          height: 2.25rem;
+          padding: 0 1rem;
+          font-size: 0.8125rem;
+        }
+
+        .btn-md {
+          height: 2.5rem;
+          padding: 0 1.25rem;
+        }
+
+        .btn-lg {
+          height: 3rem;
+          padding: 0 1.5rem;
+          font-size: 1rem;
+        }
+
+        .btn-primary {
+          background-color: var(--color-primary);
+          color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+          background-color: var(--color-primary-dark);
+          transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+          background-color: transparent;
+          color: var(--color-text-light);
+          border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+          background-color: var(--color-secondary);
+          color: var(--color-text);
+        }
+
+        .btn-success {
+          background-color: var(--color-success);
+          color: var(--color-white);
+        }
+
+        .btn-success:hover {
+          background-color: #157347;
+        }
+
+        .btn-warning {
+          background-color: var(--color-warning);
+          color: var(--color-white);
+        }
+
+        .btn-warning:hover {
+          background-color: #d97706;
+        }
+
+        /* User menu */
+        .user-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem;
+          border-radius: var(--radius-md);
+          transition: var(--transition-base);
+          cursor: pointer;
+          border: none;
+          background: none;
+        }
+
+        .user-button:hover {
+          background-color: var(--color-secondary);
+        }
+
+        .user-avatar {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 50%;
+          background-color: var(--color-primary);
+          color: var(--color-white);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 500;
+          font-size: 0.875rem;
+        }
+
+        .dropdown {
+          position: relative;
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          width: 200px;
+          background: var(--color-white);
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-lg);
+          padding: 0.5rem;
+          margin-top: 0.5rem;
+          z-index: 50;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-4px);
+          transition: all 0.15s ease;
+        }
+
+        .dropdown.active .dropdown-menu {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.5rem 0.75rem;
+          border-radius: var(--radius-sm);
+          color: var(--color-text-light);
+          text-decoration: none;
+          font-size: 0.8125rem;
+          transition: var(--transition-base);
+        }
+
+        .dropdown-item:hover {
+          background-color: var(--color-secondary);
+          color: var(--color-text);
+        }
+
+        .dropdown-divider {
+          height: 1px;
+          background-color: var(--color-border-light);
+          margin: 0.5rem 0;
+        }
+
+        /* Main content */
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+        }
+
+        .main-content {
+          padding: 2rem 0;
+          min-height: calc(100vh - 4rem);
+        }
+
+        /* Page header */
+        .page-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 2rem;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+
+        .page-title {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: var(--color-text);
+          letter-spacing: -0.025em;
+        }
+
+        .page-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        /* Cards */
+        .card {
+          background: var(--color-white);
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+          padding: 1.25rem 1.5rem;
+          border-bottom: 1px solid var(--color-border-light);
+          background: var(--color-secondary);
+        }
+
+        .card-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-text);
+        }
+
+        .card-content {
+          padding: 1.5rem;
+        }
+
+        /* Grid layouts */
+        .grid {
+          display: grid;
+          gap: 1.5rem;
+        }
+
+        .grid-2 {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .grid-4 {
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        /* Templates */
+        .template-card {
+          background: var(--color-white);
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          transition: var(--transition-base);
+          cursor: pointer;
+        }
+
+        .template-card:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-md);
+        }
+
+        .template-card.selected {
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+        }
+
+        .template-image {
+          width: 100%;
+          height: 160px;
+          background: var(--color-secondary);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .template-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .template-badge {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          width: 1.5rem;
+          height: 1.5rem;
+          background: var(--color-success);
+          color: var(--color-white);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75rem;
+          font-weight: 600;
+        }
+
+        .template-content {
+          padding: 1rem;
+        }
+
+        .template-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: 0.25rem;
+        }
+
+        .template-description {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+          margin-bottom: 0.75rem;
+          line-height: 1.4;
+        }
+
+        .template-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .template-tag {
+          background: var(--color-secondary);
+          color: var(--color-text-light);
+          padding: 0.25rem 0.5rem;
+          border-radius: var(--radius-sm);
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+
+        /* Portfolio preview */
+        .portfolio-preview {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+          align-items: start;
+        }
+
+        .portfolio-info {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .portfolio-link-group {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .portfolio-link {
+          flex: 1;
+          padding: 0.75rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.8125rem;
+          background: var(--color-secondary);
+          color: var(--color-text-light);
+        }
+
+        .copy-button {
+          padding: 0.75rem;
+          border: 1px solid var(--color-border);
+          border-left: none;
+          border-radius: 0 var(--radius-md) var(--radius-md) 0;
+          background: var(--color-white);
+          color: var(--color-text-light);
+          cursor: pointer;
+          transition: var(--transition-base);
+        }
+
+        .copy-button:hover {
+          background: var(--color-secondary);
+        }
+
+        .portfolio-iframe {
+          width: 100%;
+          height: 300px;
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-lg);
+        }
+
+        /* Page editing grid */
+        .page-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+        }
+
+        .page-card {
+          background: var(--color-white);
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-lg);
+          padding: 1.25rem;
+          text-align: center;
+          transition: var(--transition-base);
+          cursor: pointer;
+        }
+
+        .page-card:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-md);
+        }
+
+        .page-icon {
+          width: 3rem;
+          height: 3rem;
+          background: var(--color-secondary);
+          border-radius: var(--radius-lg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1rem;
+          color: var(--color-primary);
+          font-size: 1.25rem;
+        }
+
+        .page-title-small {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: 0.5rem;
+        }
+
+        .page-description {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+          margin-bottom: 1rem;
+          line-height: 1.4;
+        }
+
+        /* Modals */
+        .modal-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(4px);
+          z-index: 50;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.15s ease;
+        }
+
+        .modal-overlay.active {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .modal {
+          background: var(--color-white);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-xl);
+          max-width: 400px;
+          width: 100%;
+          transform: scale(0.95);
+          transition: transform 0.15s ease;
+        }
+
+        .modal-overlay.active .modal {
+          transform: scale(1);
+        }
+
+        .modal-large {
+          max-width: 600px;
+        }
+
+        .modal-header {
+          padding: 1.5rem 1.5rem 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .modal-title {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: var(--color-text);
+        }
+
+        .modal-close {
+          width: 2rem;
+          height: 2rem;
+          border: none;
+          background: none;
+          border-radius: var(--radius-sm);
+          color: var(--color-text-muted);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: var(--transition-base);
+        }
+
+        .modal-close:hover {
+          background: var(--color-secondary);
+          color: var(--color-text);
+        }
+
+        .modal-body {
+          padding: 1.5rem;
+        }
+
+        .modal-footer {
+          padding: 0 1.5rem 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        /* Forms */
+        .form-group {
+          margin-bottom: 1rem;
+        }
+
+        .form-label {
+          display: block;
+          font-size: 0.8125rem;
+          font-weight: 500;
+          color: var(--color-text);
+          margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          transition: var(--transition-base);
+        }
+
+        .form-input:focus {
+          outline: none;
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+        }
+
+        .form-textarea {
+          resize: vertical;
+          min-height: 120px;
+        }
+
+        /* Upload area */
+        .upload-area {
+          border: 2px dashed var(--color-border);
+          border-radius: var(--radius-lg);
+          padding: 2rem;
+          text-align: center;
+          background: var(--color-secondary);
+          cursor: pointer;
+          transition: var(--transition-base);
+        }
+
+        .upload-area:hover {
+          border-color: var(--color-primary);
+          background: #f8f9fa;
+        }
+
+        .upload-icon {
+          font-size: 2rem;
+          color: var(--color-primary);
+          margin-bottom: 1rem;
+        }
+
+        .upload-text {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: var(--color-text);
+          margin-bottom: 0.25rem;
+        }
+
+        .upload-hint {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+        }
+
+        /* Alerts */
+        .alert {
+          padding: 0.75rem 1rem;
+          border-radius: var(--radius-md);
+          margin-bottom: 1rem;
+          font-size: 0.8125rem;
+        }
+
+        .alert-warning {
+          background: #fef3c7;
+          border: 1px solid #f59e0b;
+          color: #92400e;
+        }
+
+        .alert-success {
+          background: #d1fae5;
+          border: 1px solid #10b981;
+          color: #065f46;
+        }
+
+        .alert-error {
+          background: #fee2e2;
+          border: 1px solid #ef4444;
+          color: #991b1b;
+        }
+
+        /* Steps indicator */
+        .steps {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 2rem;
+          position: relative;
+        }
+
+        .steps::before {
+          content: '';
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+          right: 1rem;
+          height: 2px;
+          background: var(--color-border);
+          z-index: 0;
+        }
+
+        .step {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+          z-index: 1;
+        }
+
+        .step-number {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 50%;
+          background: var(--color-border);
+          color: var(--color-text-muted);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.875rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .step.active .step-number {
+          background: var(--color-primary);
+          color: var(--color-white);
+        }
+
+        .step.completed .step-number {
+          background: var(--color-success);
+          color: var(--color-white);
+        }
+
+        .step-label {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+          text-align: center;
+        }
+
+        .step.active .step-label,
+        .step.completed .step-label {
+          color: var(--color-text);
+          font-weight: 500;
+        }
+
+        /* Loading states */
+        .loading {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .spinner {
+          width: 1rem;
+          height: 1rem;
+          border: 2px solid currentColor;
+          border-right-color: transparent;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* Notifications */
+        .notification {
+          position: fixed;
+          top: 1rem;
+          right: 1rem;
+          background: var(--color-success);
+          color: var(--color-white);
+          padding: 0.75rem 1rem;
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-lg);
+          z-index: 60;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+          font-size: 0.875rem;
+        }
+
+        .notification.show {
+          transform: translateX(0);
+        }
+
+        /* Welcome screen */
+        .welcome-screen {
+          text-align: center;
+          padding: 3rem 0;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .welcome-icon {
+          width: 4rem;
+          height: 4rem;
+          background: var(--color-secondary);
+          border-radius: var(--radius-lg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1.5rem;
+          color: var(--color-primary);
+          font-size: 1.75rem;
+        }
+
+        .welcome-title {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: 1rem;
+          letter-spacing: -0.025em;
+        }
+
+        .welcome-description {
+          font-size: 1rem;
+          color: var(--color-text-light);
+          margin-bottom: 2rem;
+          line-height: 1.6;
+        }
+
+        .welcome-features {
+          background: var(--color-secondary);
+          border-radius: var(--radius-lg);
+          padding: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .feature-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .feature-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          color: var(--color-text-light);
+        }
+
+        .feature-icon {
+          color: var(--color-success);
+          font-size: 1rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+          .header-container {
+            padding: 0 1rem;
+          }
+          
+          .container {
+            padding: 0 1rem;
+          }
+          
+          .nav {
+            display: none;
+          }
+          
+          .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          
+          .portfolio-preview {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+          
+          .page-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .grid-2,
+          .grid-3,
+          .grid-4 {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .main-content {
+            padding: 1.5rem 0;
+          }
+          
+          .modal {
+            margin: 1rem;
+            max-width: none;
+          }
+          
+          .modal-footer {
+            flex-direction: column;
+            gap: 0.75rem;
+          }
+          
+          .modal-footer .btn {
+            width: 100%;
+          }
+        }
+
+        /* Utility classes */
+        .hidden {
+          display: none !important;
+        }
+
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">buildfree.io</a>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="index.html#templates" class="nav-link">Templates</a>
+                <a href="index.html#pricing" class="nav-link">Pricing</a>
+            </nav>
+            
+            <!-- Auth buttons (when not logged in) -->
+            <div class="nav-actions" id="auth-nav" style="display: none;">
+                <button class="btn btn-secondary btn-sm" id="login-btn-nav">Sign In</button>
+                <button class="btn btn-primary btn-sm" id="signup-btn-nav">Get Started</button>
+            </div>
+            
+            <!-- User menu (when logged in) -->
+            <div class="dropdown" id="user-menu" style="display: none;">
+                <button class="user-button" id="user-menu-btn">
+                    <div class="user-avatar" id="user-avatar">J</div>
+                    <span id="user-name">John Doe</span>
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                        </svg>
+                        Profile
+                    </a>
+                    <a href="#" class="dropdown-item" id="database-link">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                        Database
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item" id="logout-btn" style="width: 100%; border: none; background: none; text-align: left;">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+                        </svg>
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Auth Welcome Screen -->
+            <div id="auth-welcome" class="welcome-screen hidden">
+                <div class="welcome-icon">
+                    <svg width="28" height="28" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                        <path d="M6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                    </svg>
+                </div>
+                <h1 class="welcome-title">Welcome to buildfree.io</h1>
+                <p class="welcome-description">
+                    Create your professional portfolio with our intuitive builder. 
+                    Sign in to access your dashboard or create an account to get started.
+                </p>
+                <div class="welcome-features">
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <svg class="feature-icon" width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Professional templates
+                        </div>
+                        <div class="feature-item">
+                            <svg class="feature-icon" width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Simple $12/month pricing
+                        </div>
+                        <div class="feature-item">
+                            <svg class="feature-icon" width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Cancel anytime
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content (when authenticated) -->
+            <div id="dashboard-content" class="hidden">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1 class="page-title">Portfolio Dashboard</h1>
+                    <div class="page-actions">
+                        <span id="admin-badge" class="hidden" style="background: #8b5cf6; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500;">Admin</span>
+                        <button class="btn btn-secondary btn-sm" id="database-btn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                            </svg>
+                            Database
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading-state" class="card">
+                    <div class="card-content" style="text-align: center; padding: 3rem;">
+                        <div class="spinner" style="width: 2rem; height: 2rem; margin: 0 auto 1rem;"></div>
+                        <p style="color: var(--color-text-light);">Loading your portfolio...</p>
+                    </div>
+                </div>
+
+                <!-- No Portfolio State -->
+                <div id="no-portfolio-state" class="hidden">
+                    <div class="card">
+                        <div class="card-content" style="text-align: center; padding: 3rem;">
+                            <div style="width: 4rem; height: 4rem; background: var(--color-secondary); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--color-primary); font-size: 1.75rem;">
+                                <svg width="28" height="28" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem;">Create Your Portfolio</h2>
+                            <p style="color: var(--color-text-light); margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto;">You haven't created a portfolio yet. Choose a template to get started.</p>
+                            <button class="btn btn-primary btn-md" id="create-portfolio-btn">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                                </svg>
+                                Choose Template
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Templates Grid -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Available Templates</h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="grid grid-3" id="templates-grid">
+                                <!-- Templates will be loaded here -->
+                                <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                                    <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                                    <p style="color: var(--color-text-light);">Loading templates...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Exists State -->
+                <div id="portfolio-exists-state" class="hidden">
+                    <!-- Portfolio Overview -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Your Portfolio</h2>
+                        </div>
+                        <div class="card-content">
+                            <!-- Template Change Notice -->
+                            <div id="template-change-notice" class="alert alert-warning hidden">
+                                <strong>Template Changed:</strong> You've selected a new template. Click "Publish Changes" to make it live.
+                            </div>
+
+                            <div class="portfolio-preview">
+                                <div class="portfolio-info">
+                                    <div>
+                                        <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-text);">Portfolio Link</h3>
+                                        <div class="portfolio-link-group">
+                                            <input type="text" class="portfolio-link" id="portfolio-url" readonly>
+                                            <button class="copy-button" id="copy-link-btn">
+                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/>
+                                                    <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                                        <a href="#" class="btn btn-secondary btn-sm" id="view-portfolio-btn" target="_blank">
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/>
+                                                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-1a1 1 0 10-2 0v1H5V7h1a1 1 0 000-2H5z"/>
+                                            </svg>
+                                            View Portfolio
+                                        </a>
+                                        <button class="btn btn-secondary btn-sm" id="upload-image-btn">
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Profile Image
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm" id="switch-template-btn">
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Change Template
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" id="edit-website-btn">
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+                                            </svg>
+                                            Edit Website
+                                        </button>
+                                        <button class="btn btn-success btn-sm" id="publish-changes-btn">
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                                            </svg>
+                                            Publish Changes
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-text);">Portfolio Preview</h3>
+                                    <iframe class="portfolio-iframe" id="portfolio-iframe"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page Editing -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Edit Pages</h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="page-grid">
+                                <div class="page-card" data-page="index">
+                                    <div class="page-icon">
+                                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="page-title-small">Home Page</h3>
+                                    <p class="page-description">Edit your landing page and hero section</p>
+                                    <button class="btn btn-primary btn-sm">Edit Page</button>
+                                </div>
+
+                                <div class="page-card" data-page="about">
+                                    <div class="page-icon">
+                                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="page-title-small">About Page</h3>
+                                    <p class="page-description">Update your biography and professional info</p>
+                                    <button class="btn btn-primary btn-sm">Edit Page</button>
+                                </div>
+
+                                <div class="page-card" data-page="projects">
+                                    <div class="page-icon">
+                                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="page-title-small">Projects Page</h3>
+                                    <p class="page-description">Showcase your work and portfolio projects</p>
+                                    <button class="btn btn-primary btn-sm">Edit Page</button>
+                                </div>
+
+                                <div class="page-card" data-page="contact">
+                                    <div class="page-icon">
+                                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="page-title-small">Contact Page</h3>
+                                    <p class="page-description">Update your contact information and form</p>
+                                    <button class="btn btn-primary btn-sm">Edit Page</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Welcome Back</h2>
+                <button class="modal-close" id="login-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="login-alert" class="alert alert-error hidden"></div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="login-email">Email</label>
+                        <input type="email" class="form-input" id="login-email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="login-password">Password</label>
+                        <input type="password" class="form-input" id="login-password" placeholder="••••••••" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p style="font-size: 0.8125rem; color: var(--color-text-light);">
+                    Don't have an account? <a href="#" id="show-signup" style="color: var(--color-primary); text-decoration: none;">Sign up</a>
+                </p>
+                <button class="btn btn-primary btn-md" id="login-submit">
+                    <span id="login-text">Sign In</span>
+                    <span id="login-loading" class="loading hidden">
+                        <span class="spinner"></span>
+                        Signing in...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Account</h2>
+                <button class="modal-close" id="register-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="register-alert" class="alert alert-error hidden"></div>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label class="form-label" for="register-name">Full Name</label>
+                        <input type="text" class="form-input" id="register-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-email">Email</label>
+                        <input type="email" class="form-input" id="register-email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-password">Password</label>
+                        <input type="password" class="form-input" id="register-password" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-confirm">Confirm Password</label>
+                        <input type="password" class="form-input" id="register-confirm" placeholder="••••••••" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p style="font-size: 0.8125rem; color: var(--color-text-light);">
+                    Already have an account? <a href="#" id="show-login" style="color: var(--color-primary); text-decoration: none;">Sign in</a>
+                </p>
+                <button class="btn btn-primary btn-md" id="register-submit">
+                    <span id="register-text">Create Account</span>
+                    <span id="register-loading" class="loading hidden">
+                        <span class="spinner"></span>
+                        Creating...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Portfolio Modal -->
+    <div class="modal-overlay" id="create-portfolio-modal">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Your Portfolio</h2>
+                <button class="modal-close" id="create-close">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- Steps -->
+                <div class="steps">
+                    <div class="step active" id="step-1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Template</div>
+                    </div>
+                    <div class="step" id="step-2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Profile Image</div>
+                    </div>
+                    <div class="step" id="step-3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Resume Data</div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Template -->
+                <div id="step-template" class="step-content">
+                    <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem;">Selected Template</h3>
+                    <div class="template-card selected" id="selected-template">
+                        <div class="template-image">
+                            <img id="selected-template-img" src="" alt="Selected template">
+                            <div class="template-badge">✓</div>
+                        </div>
+                        <div class="template-content">
+                            <h4 class="template-title" id="selected-template-name"></h4>
+                            <div class="template-footer">
+                                <span class="template-tag" id="selected-template-category"></span>
+                                <button class="btn btn-secondary btn-sm" id="change-template-btn">Change</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Profile Image -->
+                <div id="step-image" class="step-content hidden">
+                    <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem;">Upload Profile Image</h3>
+                    <div class="upload-area" id="image-upload-area">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Click to upload profile image</div>
+                        <div class="upload-hint">JPG, PNG or GIF (Max. 5MB)</div>
+                        <input type="file" id="profile-image-input" accept="image/*" style="display: none;">
+                    </div>
+                    <div id="image-preview" class="hidden" style="text-align: center; margin-top: 1rem;">
+                        <img id="preview-image" style="max-height: 200px; border-radius: var(--radius-lg);" alt="Preview">
+                        <button class="btn btn-secondary btn-sm" id="remove-image" style="margin-top: 0.5rem;">Remove</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Resume Data -->
+                <div id="step-resume" class="step-content hidden">
+                    <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem;">Resume Information</h3>
+                    <p style="font-size: 0.8125rem; color: var(--color-text-light); margin-bottom: 1rem;">
+                        Paste your resume or professional information below. This will be used to generate your portfolio content.
+                    </p>
+                    <textarea class="form-input form-textarea" id="resume-data" placeholder="Paste your resume, CV, or professional information here..." style="height: 200px;"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-md" id="prev-step-btn" style="display: none;">
+                    ← Previous
+                </button>
+                <div style="flex: 1;"></div>
+                <button class="btn btn-secondary btn-md" id="cancel-create-btn">Cancel</button>
+                <button class="btn btn-primary btn-md" id="next-step-btn">
+                    Next →
+                </button>
+                <button class="btn btn-primary btn-md hidden" id="create-submit-btn">
+                    <span id="create-text">Create Portfolio</span>
+                    <span id="create-loading" class="loading hidden">
+                        <span class="spinner"></span>
+                        Creating...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Image Modal -->
+    <div class="modal-overlay" id="upload-image-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload Profile Image</h2>
+                <button class="modal-close" id="upload-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Click to upload profile image</div>
+                    <div class="upload-hint">JPG, PNG or GIF (Max. 5MB)</div>
+                    <input type="file" id="image-file-input" accept="image/*" style="display: none;">
+                </div>
+                <div id="upload-preview" class="hidden" style="text-align: center; margin-top: 1rem;">
+                    <img id="upload-preview-img" style="max-height: 200px; border-radius: var(--radius-lg);" alt="Preview">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-md" id="cancel-upload-btn">Cancel</button>
+                <button class="btn btn-primary btn-md" id="upload-submit-btn">
+                    <span id="upload-text">Upload Image</span>
+                    <span id="upload-loading" class="loading hidden">
+                        <span class="spinner"></span>
+                        Uploading...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Switch Template Modal -->
+    <div class="modal-overlay" id="switch-template-modal">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h2 class="modal-title">Change Template</h2>
+                <button class="modal-close" id="switch-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <strong>Note:</strong> Changing your template will preserve your content but apply a new design. You'll need to publish changes to make them live.
+                </div>
+                <div class="grid grid-3" id="switch-templates-grid">
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                        <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                        <p style="color: var(--color-text-light);">Loading templates...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-md" id="cancel-switch-btn">Cancel</button>
+                <button class="btn btn-primary btn-md" id="switch-submit-btn">
+                    <span id="switch-text">Switch Template</span>
+                    <span id="switch-loading" class="loading hidden">
+                        <span class="spinner"></span>
+                        Switching...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span id="notification-text"></span>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_URL = '/api';
+        
+        // State
+        let currentUser = null;
+        let currentPortfolio = null;
+        let allTemplates = [];
+        let selectedTemplate = null;
+        let selectedTemplateData = null;
+        let currentStep = 1;
+        let profileImageFile = null;
+        
+        // DOM Elements
+        const authNav = document.getElementById('auth-nav');
+        const userMenu = document.getElementById('user-menu');
+        const authWelcome = document.getElementById('auth-welcome');
+        const dashboardContent = document.getElementById('dashboard-content');
+        const loadingState = document.getElementById('loading-state');
+        const noPortfolioState = document.getElementById('no-portfolio-state');
+        const portfolioExistsState = document.getElementById('portfolio-exists-state');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+        
+        function init() {
+            setupEventListeners();
+            checkAuth();
+        }
+        
+        function setupEventListeners() {
+            // User menu dropdown
+            document.getElementById('user-menu-btn').addEventListener('click', toggleUserMenu);
+            document.addEventListener('click', closeUserMenuOnOutsideClick);
+            
+            // Auth navigation
+            document.getElementById('login-btn-nav').addEventListener('click', () => showModal('login-modal'));
+            document.getElementById('signup-btn-nav').addEventListener('click', () => showModal('register-modal'));
+            
+            // Modal navigation
+            document.getElementById('show-signup').addEventListener('click', () => {
+                hideModal('login-modal');
+                showModal('register-modal');
+            });
+            document.getElementById('show-login').addEventListener('click', () => {
+                hideModal('register-modal');
+                showModal('login-modal');
+            });
+            
+            // Modal close buttons
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const modal = e.target.closest('.modal-overlay');
+                    hideModal(modal.id);
+                });
+            });
+            
+            // Form submissions
+            document.getElementById('login-submit').addEventListener('click', handleLogin);
+            document.getElementById('register-submit').addEventListener('click', handleRegister);
+            
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
+            
+            // Database links
+            document.getElementById('database-link').addEventListener('click', redirectToDatabase);
+            document.getElementById('database-btn').addEventListener('click', redirectToDatabase);
+            
+            // Portfolio creation
+            document.getElementById('create-portfolio-btn').addEventListener('click', startPortfolioCreation);
+            document.getElementById('next-step-btn').addEventListener('click', nextStep);
+            document.getElementById('prev-step-btn').addEventListener('click', prevStep);
+            document.getElementById('create-submit-btn').addEventListener('click', createPortfolio);
+            
+            // Image upload
+            document.getElementById('image-upload-area').addEventListener('click', () => {
+                document.getElementById('profile-image-input').click();
+            });
+            document.getElementById('profile-image-input').addEventListener('change', handleImageSelect);
+            document.getElementById('remove-image').addEventListener('click', removeImage);
+            
+            // Profile image upload
+            document.getElementById('upload-image-btn').addEventListener('click', () => showModal('upload-image-modal'));
+            document.getElementById('upload-area').addEventListener('click', () => {
+                document.getElementById('image-file-input').click();
+            });
+            document.getElementById('image-file-input').addEventListener('change', handleProfileImageSelect);
+            document.getElementById('upload-submit-btn').addEventListener('click', uploadProfileImage);
+            
+            // Template switching
+            document.getElementById('switch-template-btn').addEventListener('click', () => {
+                loadSwitchTemplates();
+                showModal('switch-template-modal');
+            });
+            document.getElementById('switch-submit-btn').addEventListener('click', switchTemplate);
+            
+            // Portfolio actions
+            document.getElementById('copy-link-btn').addEventListener('click', copyPortfolioLink);
+            document.getElementById('edit-website-btn').addEventListener('click', editWebsite);
+            document.getElementById('publish-changes-btn').addEventListener('click', publishChanges);
+            
+            // Page editing
+            document.querySelectorAll('.page-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const page = card.dataset.page;
+                    editPage(page);
+                });
+            });
+            
+            // Modal backdrop clicks
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        hideModal(overlay.id);
+                    }
+                });
+            });
+        }
+        
+        function toggleUserMenu() {
+            userMenu.classList.toggle('active');
+        }
+        
+        function closeUserMenuOnOutsideClick(e) {
+            if (!userMenu.contains(e.target)) {
+                userMenu.classList.remove('active');
+            }
+        }
+        
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+        }
+        
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            document.getElementById('notification-text').textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const urlParams = new URLSearchParams(window.location.search);
+            const authMode = urlParams.get('mode');
+            const templateId = urlParams.get('template');
+            
+            if (token) {
+                fetch(`${API_URL}/auth/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.user) {
+                        currentUser = data.user;
+                        showAuthenticatedUI();
+                        if (templateId) selectedTemplate = templateId;
+                        checkUserPortfolio();
+                    } else {
+                        throw new Error('Invalid token');
+                    }
+                })
+                .catch(() => {
+                    localStorage.removeItem('token');
+                    showUnauthenticatedUI(authMode, templateId);
+                });
+            } else {
+                showUnauthenticatedUI(authMode, templateId);
+            }
+        }
+        
+        function showAuthenticatedUI() {
+            authNav.style.display = 'none';
+            userMenu.style.display = 'flex';
+            authWelcome.classList.add('hidden');
+            dashboardContent.classList.remove('hidden');
+            
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-avatar').textContent = currentUser.name.charAt(0);
+            
+            if (currentUser.role === 'admin') {
+                document.getElementById('admin-badge').classList.remove('hidden');
+            }
+        }
+        
+        function showUnauthenticatedUI(authMode, templateId) {
+            authNav.style.display = 'flex';
+            userMenu.style.display = 'none';
+            dashboardContent.classList.add('hidden');
+            authWelcome.classList.remove('hidden');
+            
+            if (templateId) selectedTemplate = templateId;
+            
+            if (authMode === 'login') {
+                setTimeout(() => showModal('login-modal'), 500);
+            } else if (authMode === 'signup') {
+                setTimeout(() => showModal('register-modal'), 500);
+            }
+        }
+        
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                showAlert('login-alert', 'Please fill in all fields');
+                return;
+            }
+            
+            showLoading('login-text', 'login-loading');
+            
+            fetch(`${API_URL}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    currentUser = data.user;
+                    hideModal('login-modal');
+                    showAuthenticatedUI();
+                    checkUserPortfolio();
+                } else {
+                    showAlert('login-alert', data.message || 'Login failed');
+                }
+            })
+            .catch(error => {
+                showAlert('login-alert', 'Login failed. Please try again.');
+            })
+            .finally(() => {
+                hideLoading('login-text', 'login-loading');
+            });
+        }
+        
+        function handleRegister() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
+            
+            if (!name || !email || !password || !confirm) {
+                showAlert('register-alert', 'Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirm) {
+                showAlert('register-alert', 'Passwords do not match');
+                return;
+            }
+            
+            showLoading('register-text', 'register-loading');
+            
+            fetch(`${API_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    currentUser = data.user;
+                    hideModal('register-modal');
+                    showAuthenticatedUI();
+                    checkUserPortfolio();
+                } else {
+                    showAlert('register-alert', data.message || 'Registration failed');
+                }
+            })
+            .catch(error => {
+                showAlert('register-alert', 'Registration failed. Please try again.');
+            })
+            .finally(() => {
+                hideLoading('register-text', 'register-loading');
+            });
+        }
+        
+        function handleLogout() {
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        }
+        
+        function redirectToDatabase() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                window.location.href = `/database-dashboard.html?token=${token}`;
+            }
+        }
+        
+        function checkUserPortfolio() {
+            const token = localStorage.getItem('token');
+            
+            fetch(`${API_URL}/profolio/user-portfolio`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingState.classList.add('hidden');
+                
+                if (data.portfolioUrl) {
+                    currentPortfolio = {
+                        url: data.portfolioUrl,
+                        editorUrl: data.editorUrl,
+                        profileImageUrl: data.profileImageUrl,
+                        templateId: data.templateId
+                    };
+                    showPortfolioExists();
+                } else {
+                    showNoPortfolio();
+                }
+            })
+            .catch(error => {
+                loadingState.classList.add('hidden');
+                showNoPortfolio();
+            });
+        }
+        
+        function showNoPortfolio() {
+            noPortfolioState.classList.remove('hidden');
+            portfolioExistsState.classList.add('hidden');
+            loadTemplates();
+        }
+        
+        function showPortfolioExists() {
+            portfolioExistsState.classList.remove('hidden');
+            noPortfolioState.classList.add('hidden');
+            
+            // Update portfolio info
+            document.getElementById('portfolio-url').value = window.location.origin + currentPortfolio.url;
+            document.getElementById('view-portfolio-btn').href = currentPortfolio.url;
+            document.getElementById('portfolio-iframe').src = currentPortfolio.url;
+        }
+        
+        function loadTemplates() {
+            const grid = document.getElementById('templates-grid');
+            
+            fetch(`${API_URL}/profolio/templates`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.templates) {
+                    allTemplates = data.templates;
+                    renderTemplates(data.templates.slice(0, 6), grid);
+                } else {
+                    grid.innerHTML = '<p style="text-align: center; color: var(--color-text-light);">No templates found</p>';
+                }
+            })
+            .catch(error => {
+                grid.innerHTML = '<p style="text-align: center; color: var(--color-text-light);">Error loading templates</p>';
+            });
+        }
+        
+        function renderTemplates(templates, container) {
+            container.innerHTML = templates.map(template => `
+                <div class="template-card ${selectedTemplate === template.id ? 'selected' : ''}" data-id="${template.id}">
+                    <div class="template-image">
+                        <img src="${template.thumbnail_url || 'https://placehold.co/300x160/f1f3f4/6c757d?text=Template'}" alt="${template.name}">
+                        ${selectedTemplate === template.id ? '<div class="template-badge">✓</div>' : ''}
+                    </div>
+                    <div class="template-content">
+                        <h3 class="template-title">${template.name}</h3>
+                        <p class="template-description">${template.description || 'Professional template'}</p>
+                        <div class="template-footer">
+                            <span class="template-tag">${template.category || 'General'}</span>
+                            <button class="btn btn-primary btn-sm select-template" data-id="${template.id}">
+                                ${selectedTemplate === template.id ? 'Selected' : 'Select'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add event listeners
+            container.querySelectorAll('.template-card').forEach(card => {
+                card.addEventListener('click', () => selectTemplate(card.dataset.id));
+            });
+        }
+        
+        function selectTemplate(templateId) {
+            selectedTemplate = templateId;
+            selectedTemplateData = allTemplates.find(t => t.id === templateId);
+            
+            // Update UI
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.toggle('selected', card.dataset.id === templateId);
+                const badge = card.querySelector('.template-badge');
+                const button = card.querySelector('.select-template');
+                
+                if (card.dataset.id === templateId) {
+                    if (!badge) {
+                        card.querySelector('.template-image').innerHTML += '<div class="template-badge">✓</div>';
+                    }
+                    button.textContent = 'Selected';
+                } else {
+                    if (badge) badge.remove();
+                    button.textContent = 'Select';
+                }
+            });
+        }
+        
+        function startPortfolioCreation() {
+            if (!selectedTemplate) {
+                showNotification('Please select a template first');
+                return;
+            }
+            
+            currentStep = 1;
+            updateStepUI();
+            
+            // Update selected template info
+            if (selectedTemplateData) {
+                document.getElementById('selected-template-img').src = selectedTemplateData.thumbnail_url || 'https://placehold.co/300x160/f1f3f4/6c757d?text=Template';
+                document.getElementById('selected-template-name').textContent = selectedTemplateData.name;
+                document.getElementById('selected-template-category').textContent = selectedTemplateData.category || 'General';
+            }
+            
+            showModal('create-portfolio-modal');
+        }
+        
+        function nextStep() {
+            if (currentStep < 3) {
+                currentStep++;
+                updateStepUI();
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepUI();
+            }
+        }
+        
+        function updateStepUI() {
+            // Update step indicators
+            for (let i = 1; i <= 3; i++) {
+                const step = document.getElementById(`step-${i}`);
+                if (i < currentStep) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (i === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            }
+            
+            // Show/hide content
+            document.getElementById('step-template').classList.toggle('hidden', currentStep !== 1);
+            document.getElementById('step-image').classList.toggle('hidden', currentStep !== 2);
+            document.getElementById('step-resume').classList.toggle('hidden', currentStep !== 3);
+            
+            // Update buttons
+            document.getElementById('prev-step-btn').style.display = currentStep === 1 ? 'none' : 'inline-flex';
+            document.getElementById('next-step-btn').style.display = currentStep === 3 ? 'none' : 'inline-flex';
+            document.getElementById('create-submit-btn').classList.toggle('hidden', currentStep !== 3);
+        }
+        
+        function handleImageSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                showNotification('Please select an image file');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('Image size should be less than 5MB');
+                return;
+            }
+            
+            profileImageFile = file;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('preview-image').src = e.target.result;
+                document.getElementById('image-preview').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function removeImage() {
+            profileImageFile = null;
+            document.getElementById('profile-image-input').value = '';
+            document.getElementById('image-preview').classList.add('hidden');
+        }
+        
+        function handleProfileImageSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                showNotification('Please select an image file');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('Image size should be less than 5MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('upload-preview-img').src = e.target.result;
+                document.getElementById('upload-preview').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function uploadProfileImage() {
+            const fileInput = document.getElementById('image-file-input');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showNotification('Please select an image');
+                return;
+            }
+            
+            showLoading('upload-text', 'upload-loading');
+            
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            fetch(`${API_URL}/profolio/upload-image`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    hideModal('upload-image-modal');
+                    showNotification('Profile image uploaded successfully');
+                    checkUserPortfolio();
+                } else {
+                    showNotification('Failed to upload image');
+                }
+            })
+            .catch(error => {
+                showNotification('Error uploading image');
+            })
+            .finally(() => {
+                hideLoading('upload-text', 'upload-loading');
+            });
+        }
+        
+        function createPortfolio() {
+            const resumeData = document.getElementById('resume-data').value;
+            
+            if (!resumeData.trim()) {
+                showNotification('Please provide your resume information');
+                return;
+            }
+            
+            showLoading('create-text', 'create-loading');
+            
+            const formData = new FormData();
+            formData.append('resumeData', resumeData);
+            formData.append('templateId', selectedTemplate);
+            
+            if (profileImageFile) {
+                formData.append('profileImage', profileImageFile);
+            }
+            
+            fetch(`${API_URL}/profolio/generate`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    hideModal('create-portfolio-modal');
+                    showNotification('Portfolio created successfully!');
+                    checkUserPortfolio();
+                } else {
+                    showNotification('Failed to create portfolio');
+                }
+            })
+            .catch(error => {
+                showNotification('Error creating portfolio');
+            })
+            .finally(() => {
+                hideLoading('create-text', 'create-loading');
+            });
+        }
+        
+        function loadSwitchTemplates() {
+            const grid = document.getElementById('switch-templates-grid');
+            
+            if (allTemplates.length > 0) {
+                renderSwitchTemplates(allTemplates, grid);
+            } else {
+                fetch(`${API_URL}/profolio/templates`, {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.templates) {
+                        allTemplates = data.templates;
+                        renderSwitchTemplates(data.templates, grid);
+                    }
+                });
+            }
+        }
+        
+        function renderSwitchTemplates(templates, container) {
+            container.innerHTML = templates.map(template => `
+                <div class="template-card ${currentPortfolio && currentPortfolio.templateId === template.id ? 'selected' : ''}" data-id="${template.id}">
+                    <div class="template-image">
+                        <img src="${template.thumbnail_url || 'https://placehold.co/300x160/f1f3f4/6c757d?text=Template'}" alt="${template.name}">
+                        ${currentPortfolio && currentPortfolio.templateId === template.id ? '<div class="template-badge">Current</div>' : ''}
+                    </div>
+                    <div class="template-content">
+                        <h3 class="template-title">${template.name}</h3>
+                        <div class="template-footer">
+                            <span class="template-tag">${template.category || 'General'}</span>
+                            <button class="btn btn-sm ${currentPortfolio && currentPortfolio.templateId === template.id ? 'btn-secondary' : 'btn-primary'} switch-template" data-id="${template.id}">
+                                ${currentPortfolio && currentPortfolio.templateId === template.id ? 'Current' : 'Select'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add event listeners
+            container.querySelectorAll('.template-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    if (currentPortfolio && currentPortfolio.templateId === card.dataset.id) return;
+                    selectSwitchTemplate(card.dataset.id);
+                });
+            });
+        }
+        
+        function selectSwitchTemplate(templateId) {
+            selectedTemplate = templateId;
+            
+            // Update UI
+            document.querySelectorAll('#switch-templates-grid .template-card').forEach(card => {
+                const button = card.querySelector('.switch-template');
+                const badge = card.querySelector('.template-badge');
+                
+                if (card.dataset.id === templateId) {
+                    card.classList.add('selected');
+                    button.textContent = 'Selected';
+                    button.className = 'btn btn-sm btn-success switch-template';
+                } else if (currentPortfolio && currentPortfolio.templateId === card.dataset.id) {
+                    card.classList.remove('selected');
+                    button.textContent = 'Current';
+                    button.className = 'btn btn-sm btn-secondary switch-template';
+                } else {
+                    card.classList.remove('selected');
+                    button.textContent = 'Select';
+                    button.className = 'btn btn-sm btn-primary switch-template';
+                }
+            });
+        }
+        
+        function switchTemplate() {
+            if (!selectedTemplate || selectedTemplate === currentPortfolio.templateId) {
+                hideModal('switch-template-modal');
+                return;
+            }
+            
+            showLoading('switch-text', 'switch-loading');
+            
+            fetch(`${API_URL}/profolio/switch-template`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ templateId: selectedTemplate })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    hideModal('switch-template-modal');
+                    showNotification('Template switched! Remember to publish changes.');
+                    
+                    // Show template change notice
+                    document.getElementById('template-change-notice').classList.remove('hidden');
+                    
+                    // Update publish button
+                    const publishBtn = document.getElementById('publish-changes-btn');
+                    publishBtn.classList.remove('btn-success');
+                    publishBtn.classList.add('btn-warning');
+                    publishBtn.innerHTML = `
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                        </svg>
+                        Publish Template Changes
+                    `;
+                    
+                    currentPortfolio.templateId = selectedTemplate;
+                } else {
+                    showNotification('Failed to switch template');
+                }
+            })
+            .catch(error => {
+                showNotification('Error switching template');
+            })
+            .finally(() => {
+                hideLoading('switch-text', 'switch-loading');
+            });
+        }
+        
+        function copyPortfolioLink() {
+            const linkInput = document.getElementById('portfolio-url');
+            linkInput.select();
+            document.execCommand('copy');
+            showNotification('Portfolio link copied to clipboard');
+        }
+        
+        function editWebsite() {
+            const token = localStorage.getItem('token');
+            window.location.href = `/edit-portfolio/${currentUser.id}/index.html?token=${token}`;
+        }
+        
+        function editPage(page) {
+            const token = localStorage.getItem('token');
+            window.location.href = `/edit-portfolio/${currentUser.id}/${page}.html?token=${token}`;
+        }
+        
+        function publishChanges() {
+            showLoading('publish-text', 'publish-loading');
+            
+            fetch(`${API_URL}/profolio/regenerate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ templateId: currentPortfolio.templateId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Changes published successfully!');
+                    
+                    // Hide template change notice
+                    document.getElementById('template-change-notice').classList.add('hidden');
+                    
+                    // Reset publish button
+                    const publishBtn = document.getElementById('publish-changes-btn');
+                    publishBtn.classList.remove('btn-warning');
+                    publishBtn.classList.add('btn-success');
+                    publishBtn.innerHTML = `
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                        </svg>
+                        Publish Changes
+                    `;
+                    
+                    // Refresh iframe
+                    const iframe = document.getElementById('portfolio-iframe');
+                    iframe.src = iframe.src;
+                } else {
+                    showNotification('Failed to publish changes');
+                }
+            })
+            .catch(error => {
+                showNotification('Error publishing changes');
+            })
+            .finally(() => {
+                hideLoading('publish-text', 'publish-loading');
+            });
+        }
+        
+        function showAlert(alertId, message) {
+            const alert = document.getElementById(alertId);
+            alert.textContent = message;
+            alert.classList.remove('hidden');
+        }
+        
+        function showLoading(textId, loadingId) {
+            document.getElementById(textId).classList.add('hidden');
+            document.getElementById(loadingId).classList.remove('hidden');
+        }
+        
+        function hideLoading(textId, loadingId) {
+            document.getElementById(loadingId).classList.add('hidden');
+            document.getElementById(textId).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
