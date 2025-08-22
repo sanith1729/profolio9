@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Changer - buildfree.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --color-primary: #1a1a1a;
+          --color-primary-dark: #000000;
+          --color-secondary: #f8f9fa;
+          --color-accent: #e9ecef;
+          --color-body: #ffffff;
+          --color-white: #ffffff;
+          --color-text: #1a1a1a;
+          --color-text-light: #6c757d;
+          --color-text-muted: #adb5bd;
+          --color-border: #dee2e6;
+          --color-border-light: #f1f3f4;
+          --color-success: #198754;
+          --color-warning: #f59e0b;
+          --color-error: #dc3545;
+          --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          --spacing-xs: 0.25rem;
+          --spacing-sm: 0.5rem;
+          --spacing-md: 1rem;
+          --spacing-lg: 1.5rem;
+          --spacing-xl: 2rem;
+          --spacing-2xl: 3rem;
+          --spacing-3xl: 4rem;
+          --radius-sm: 0.375rem;
+          --radius-md: 0.5rem;
+          --radius-lg: 0.75rem;
+          --radius-xl: 1rem;
+          --transition-base: all 0.15s ease;
+        }
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: var(--font-primary);
+          color: var(--color-text);
+          background-color: var(--color-body);
+          line-height: 1.5;
+          font-size: 0.875rem;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(8px);
+          border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .header-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 4rem;
+        }
+
+        .logo {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: var(--color-text);
+          text-decoration: none;
+          letter-spacing: -0.025em;
+        }
+
+        .nav {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+        }
+
+        .nav-link {
+          font-size: 0.875rem;
+          color: var(--color-text-light);
+          text-decoration: none;
+          font-weight: 400;
+          transition: var(--transition-base);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+          color: var(--color-text);
+        }
+
+        .nav-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          font-weight: 500;
+          line-height: 1;
+          text-decoration: none;
+          transition: var(--transition-base);
+          cursor: pointer;
+          border: none;
+          white-space: nowrap;
+        }
+
+        .btn-sm {
+          height: 2.25rem;
+          padding: 0 1rem;
+          font-size: 0.8125rem;
+        }
+
+        .btn-md {
+          height: 2.5rem;
+          padding: 0 1.25rem;
+        }
+
+        .btn-lg {
+          height: 3rem;
+          padding: 0 1.5rem;
+          font-size: 1rem;
+        }
+
+        .btn-primary {
+          background-color: var(--color-primary);
+          color: var(--color-white);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+          background-color: var(--color-primary-dark);
+          transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+          background-color: transparent;
+          color: var(--color-text-light);
+          border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+          background-color: var(--color-secondary);
+          color: var(--color-text);
+        }
+
+        .btn-success {
+          background-color: var(--color-success);
+          color: var(--color-white);
+        }
+
+        .btn-success:hover:not(:disabled) {
+          background-color: #157347;
+        }
+
+        .btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        /* Main content */
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+        }
+
+        .main-content {
+          padding: 2rem 0;
+          min-height: calc(100vh - 4rem);
+        }
+
+        /* Page header */
+        .page-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 2rem;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+
+        .page-title {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: var(--color-text);
+          letter-spacing: -0.025em;
+        }
+
+        .page-description {
+          font-size: 0.875rem;
+          color: var(--color-text-light);
+          margin-top: 0.5rem;
+        }
+
+        /* Cards */
+        .card {
+          background: var(--color-white);
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+          padding: 1.25rem 1.5rem;
+          border-bottom: 1px solid var(--color-border-light);
+          background: var(--color-secondary);
+        }
+
+        .card-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-text);
+        }
+
+        .card-content {
+          padding: 1.5rem;
+        }
+
+        /* Grid layouts */
+        .grid {
+          display: grid;
+          gap: 1.5rem;
+        }
+
+        .grid-2 {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* Forms */
+        .form-group {
+          margin-bottom: 1rem;
+        }
+
+        .form-label {
+          display: block;
+          font-size: 0.8125rem;
+          font-weight: 500;
+          color: var(--color-text);
+          margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          transition: var(--transition-base);
+        }
+
+        .form-input:focus {
+          outline: none;
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+        }
+
+        .form-textarea {
+          resize: vertical;
+          min-height: 120px;
+        }
+
+        /* Upload area */
+        .upload-area {
+          border: 2px dashed var(--color-border);
+          border-radius: var(--radius-lg);
+          padding: 2rem;
+          text-align: center;
+          background: var(--color-secondary);
+          cursor: pointer;
+          transition: var(--transition-base);
+          position: relative;
+        }
+
+        .upload-area:hover {
+          border-color: var(--color-primary);
+          background: #f8f9fa;
+        }
+
+        .upload-area.drag-over {
+          border-color: var(--color-primary);
+          background: rgba(26, 26, 26, 0.05);
+        }
+
+        .upload-icon {
+          font-size: 2rem;
+          color: var(--color-primary);
+          margin-bottom: 1rem;
+        }
+
+        .upload-text {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: var(--color-text);
+          margin-bottom: 0.25rem;
+        }
+
+        .upload-hint {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+        }
+
+        /* File preview */
+        .file-preview {
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          padding: 1rem;
+          margin-top: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .file-icon {
+          width: 2.5rem;
+          height: 2.5rem;
+          background: var(--color-secondary);
+          border-radius: var(--radius-sm);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--color-primary);
+        }
+
+        .file-info {
+          flex: 1;
+        }
+
+        .file-name {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: var(--color-text);
+        }
+
+        .file-size {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+        }
+
+        /* Alerts */
+        .alert {
+          padding: 0.75rem 1rem;
+          border-radius: var(--radius-md);
+          margin-bottom: 1rem;
+          font-size: 0.8125rem;
+        }
+
+        .alert-warning {
+          background: #fef3c7;
+          border: 1px solid #f59e0b;
+          color: #92400e;
+        }
+
+        .alert-success {
+          background: #d1fae5;
+          border: 1px solid #10b981;
+          color: #065f46;
+        }
+
+        .alert-error {
+          background: #fee2e2;
+          border: 1px solid #ef4444;
+          color: #991b1b;
+        }
+
+        .alert-info {
+          background: #dbeafe;
+          border: 1px solid #3b82f6;
+          color: #1e40af;
+        }
+
+        /* Loading states */
+        .loading {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .spinner {
+          width: 1rem;
+          height: 1rem;
+          border: 2px solid currentColor;
+          border-right-color: transparent;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* Preview area */
+        .preview-area {
+          background: var(--color-white);
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-lg);
+          min-height: 400px;
+          padding: 1.5rem;
+          font-family: 'Times New Roman', serif;
+          line-height: 1.6;
+          overflow-y: auto;
+        }
+
+        .preview-placeholder {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          color: var(--color-text-muted);
+          text-align: center;
+        }
+
+        .preview-placeholder-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        /* Steps indicator */
+        .steps {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 2rem;
+          position: relative;
+        }
+
+        .steps::before {
+          content: '';
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+          right: 1rem;
+          height: 2px;
+          background: var(--color-border);
+          z-index: 0;
+        }
+
+        .step {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+          z-index: 1;
+          background: var(--color-white);
+          padding: 0 0.5rem;
+        }
+
+        .step-number {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 50%;
+          background: var(--color-border);
+          color: var(--color-text-muted);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.875rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .step.active .step-number {
+          background: var(--color-primary);
+          color: var(--color-white);
+        }
+
+        .step.completed .step-number {
+          background: var(--color-success);
+          color: var(--color-white);
+        }
+
+        .step-label {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+          text-align: center;
+        }
+
+        .step.active .step-label,
+        .step.completed .step-label {
+          color: var(--color-text);
+          font-weight: 500;
+        }
+
+        /* Notifications */
+        .notification {
+          position: fixed;
+          top: 1rem;
+          right: 1rem;
+          background: var(--color-success);
+          color: var(--color-white);
+          padding: 0.75rem 1rem;
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-lg);
+          z-index: 60;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+          font-size: 0.875rem;
+        }
+
+        .notification.show {
+          transform: translateX(0);
+        }
+
+        .notification.error {
+          background: var(--color-error);
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            width: 90%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .modal-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            line-height: 1;
+            color: var(--color-text-light);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--color-border-light);
+            background-color: var(--color-secondary);
+        }
+
+        /* Utility classes */
+        .hidden {
+          display: none !important;
+        }
+
+        .text-center {
+          text-align: center;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+          .header-container {
+            padding: 0 1rem;
+          }
+          
+          .container {
+            padding: 0 1rem;
+          }
+          
+          .nav {
+            display: none;
+          }
+          
+          .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          
+          .grid-2 {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .main-content {
+            padding: 1.5rem 0;
+          }
+          
+          .steps {
+            flex-direction: column;
+            gap: 1rem;
+          }
+          
+          .steps::before {
+            display: none;
+          }
+          
+          .step {
+            flex-direction: row;
+            justify-content: flex-start;
+          }
+          
+          .step-number {
+            margin-bottom: 0;
+            margin-right: 0.75rem;
+          }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="dashboard.html" class="logo">buildfree.io</a>
+            
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="resume-changer.html" class="nav-link active">Resume Changer</a>
+                <a href="#" class="nav-link">Templates</a>
+                <a href="#" class="nav-link">Help</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="btn btn-secondary btn-sm" onclick="window.location.href='dashboard.html'">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                    </svg>
+                    Dashboard
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Resume Changer</h1>
+                    <p class="page-description">Upload your resume and tailor it to match specific job requirements</p>
+                </div>
+            </div>
+
+            <!-- Steps -->
+            <div class="steps">
+                <div class="step active" id="step-1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Upload Resume</div>
+                </div>
+                <div class="step" id="step-2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Job Requirements</div>
+                </div>
+                <div class="step" id="step-3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Generate & Download</div>
+                </div>
+            </div>
+
+            <!-- Process Grid -->
+            <div class="grid grid-2">
+                <!-- Left Column: Input -->
+                <div>
+                    <!-- Resume Upload -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Upload Your Resume</h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="upload-area" id="resume-upload-area">
+                                <div class="upload-icon">📄</div>
+                                <div class="upload-text">Click to upload your resume</div>
+                                <div class="upload-hint">PDF, DOC, DOCX (Max. 10MB)</div>
+                                <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx" style="display: none;">
+                            </div>
+                            <div id="resume-preview" class="hidden"></div>
+                        </div>
+                    </div>
+
+                    <!-- Job Requirements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Job Requirements & Qualifications</h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="form-group">
+                                <label class="form-label" for="job-requirements">Job Requirements & Qualifications</label>
+                                <textarea class="form-input form-textarea" id="job-requirements" placeholder="Paste the complete job posting here, including job title, company name, required skills, qualifications, responsibilities, and any other relevant details..." style="height: 300px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="card">
+                        <div class="card-content">
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <button class="btn btn-primary btn-lg" id="generate-resume-btn" disabled>
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span id="generate-text">Generate Tailored Resume</span>
+                                    <span id="generate-loading" class="loading hidden">
+                                        <span class="spinner"></span>
+                                        Processing...
+                                    </span>
+                                </button>
+                                <button class="btn btn-secondary btn-lg" id="clear-all-btn">
+                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                        <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Clear All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Preview -->
+                <div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <h2 class="card-title">Tailored Resume Preview</h2>
+                                <button class="btn btn-success btn-sm hidden" id="download-btn">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.5rem;">
+                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="preview-area" id="resume-preview-area">
+                                <div class="preview-placeholder">
+                                    <div class="preview-placeholder-icon">📄</div>
+                                    <h3 style="font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--color-text-light);">Resume Preview</h3>
+                                    <p style="font-size: 0.875rem; color: var(--color-text-muted);">Upload your resume and add job requirements to see the tailored version here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tips Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Tips for Better Results</h2>
+                        </div>
+                        <div class="card-content">
+                            <div style="font-size: 0.875rem; color: var(--color-text-light); line-height: 1.6;">
+                                <div style="margin-bottom: 1rem;">
+                                    <strong style="color: var(--color-text);">📋 For Best Results:</strong>
+                                </div>
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <li style="margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                        <span style="color: var(--color-success);">•</span>
+                                        Upload a well-formatted resume in PDF or Word format
+                                    </li>
+                                    <li style="margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                        <span style="color: var(--color-success);">•</span>
+                                        Paste the complete job posting including job title, company, and requirements
+                                    </li>
+                                    <li style="margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                        <span style="color: var(--color-success);">•</span>
+                                        Include all skills, qualifications, and responsibilities from the job posting
+                                    </li>
+                                    <li style="margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+                                        <span style="color: var(--color-success);">•</span>
+                                        Review the generated resume before downloading
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span id="notification-text"></span>
+    </div>
+
+    <script>
+        // State
+        let uploadedFile = null;
+        let currentStep = 1;
+        let generatedResume = null;
+        let currentTailorId = null;
+        
+        // DOM Elements
+        const resumeUploadArea = document.getElementById('resume-upload-area');
+        const resumeFileInput = document.getElementById('resume-file-input');
+        const resumePreview = document.getElementById('resume-preview');
+        const generateBtn = document.getElementById('generate-resume-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const clearAllBtn = document.getElementById('clear-all-btn');
+        const previewArea = document.getElementById('resume-preview-area');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+        
+        function init() {
+            setupEventListeners();
+            updateStepUI();
+        }
+        
+        function setupEventListeners() {
+            // File upload
+            resumeUploadArea.addEventListener('click', () => resumeFileInput.click());
+            resumeFileInput.addEventListener('change', handleFileSelect);
+            
+            // Drag and drop
+            resumeUploadArea.addEventListener('dragover', handleDragOver);
+            resumeUploadArea.addEventListener('dragleave', handleDragLeave);
+            resumeUploadArea.addEventListener('drop', handleDrop);
+            
+            // Form inputs
+            document.getElementById('job-requirements').addEventListener('input', validateForm);
+            
+            // Buttons
+            generateBtn.addEventListener('click', generateResume);
+            downloadBtn.addEventListener('click', downloadResume);
+            clearAllBtn.addEventListener('click', clearAll);
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+            resumeUploadArea.classList.add('drag-over');
+        }
+        
+        function handleDragLeave(e) {
+            e.preventDefault();
+            resumeUploadArea.classList.remove('drag-over');
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            resumeUploadArea.classList.remove('drag-over');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                processFile(files[0]);
+            }
+        }
+        
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+        
+        function processFile(file) {
+            // Validate file type
+            const allowedTypes = ['.pdf', '.doc', '.docx', '.txt'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedTypes.includes(fileExtension)) {
+                showNotification('Please upload a PDF, DOC, DOCX, or TXT file', 'error');
+                return;
+            }
+            
+            // Validate file size (10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                showNotification('File size should be less than 10MB', 'error');
+                return;
+            }
+            
+            uploadedFile = file;
+            uploadResumeFile(file);
+        }
+        
+        function uploadResumeFile(file) {
+            const formData = new FormData();
+            formData.append('resume', file);
+            
+            // Show uploading state
+            showFilePreview(file, true);
+            
+            fetch('/api/resume/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showFilePreview(file, false);
+                    updateStepUI();
+                    validateForm();
+                    showNotification('Resume uploaded and processed successfully!');
+                } else {
+                    showNotification(data.message || 'Failed to process resume', 'error');
+                    removeFile();
+                }
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                showNotification('Error uploading resume', 'error');
+                removeFile();
+            });
+        }
+        
+        function showFilePreview(file, isUploading = false) {
+            const fileSize = (file.size / 1024 / 1024).toFixed(2);
+            const fileName = file.name.length > 30 ? file.name.substring(0, 30) + '...' : file.name;
+            
+            resumePreview.innerHTML = `
+                <div class="file-preview">
+                    <div class="file-icon">
+                        ${isUploading ? 
+                            '<div class="spinner" style="width: 20px; height: 20px;"></div>' :
+                            `<svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                            </svg>`
+                        }
+                    </div>
+                    <div class="file-info">
+                        <div class="file-name">${fileName}</div>
+                        <div class="file-size">${isUploading ? 'Processing...' : `${fileSize} MB`}</div>
+                    </div>
+                    ${!isUploading ? 
+                        `<button class="btn btn-secondary btn-sm" onclick="removeFile()">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>` : ''
+                    }
+                </div>
+            `;
+            resumePreview.classList.remove('hidden');
+        }
+        
+        function removeFile() {
+            uploadedFile = null;
+            resumeFileInput.value = '';
+            resumePreview.classList.add('hidden');
+            updateStepUI();
+            validateForm();
+        }
+        
+        function validateForm() {
+            const jobRequirements = document.getElementById('job-requirements').value.trim();
+            
+            const isValid = uploadedFile && jobRequirements;
+            generateBtn.disabled = !isValid;
+            
+            if (uploadedFile) {
+                updateStep(1, 'completed');
+                updateStep(2, 'active');
+            }
+            
+            if (isValid) {
+                updateStep(2, 'completed');
+            }
+        }
+        
+        function updateStep(stepNumber, status) {
+            const step = document.getElementById(`step-${stepNumber}`);
+            step.classList.remove('active', 'completed');
+            if (status) {
+                step.classList.add(status);
+            }
+        }
+        
+        function updateStepUI() {
+            if (!uploadedFile) {
+                updateStep(1, 'active');
+                updateStep(2, '');
+                updateStep(3, '');
+            }
+        }
+        
+        function generateResume() {
+            if (!uploadedFile) {
+                showNotification('Please upload a resume first', 'error');
+                return;
+            }
+            
+            const jobRequirements = document.getElementById('job-requirements').value.trim();
+            
+            if (!jobRequirements) {
+                showNotification('Please fill in the job requirements and qualifications', 'error');
+                return;
+            }
+            
+            showLoading('generate-text', 'generate-loading');
+            generateBtn.disabled = true;
+            
+            // Send job requirements to get tailored resume
+            fetch('/api/resume/tailor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    jobRequirements: jobRequirements
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    generatedResume = data.data.tailoredResume;
+                    currentTailorId = data.data.tailorId; // Store the tailorId
+                    showResumePreview(data.data.tailoredResume);
+                    updateStep(3, 'completed');
+                    downloadBtn.classList.remove('hidden');
+                    showNotification('Resume tailored successfully!');
+                } else {
+                    showNotification(data.message || 'Failed to generate resume', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error generating resume. Please try again.', 'error');
+            })
+            .finally(() => {
+                hideLoading('generate-text', 'generate-loading');
+                generateBtn.disabled = false;
+            });
+        }
+        
+        function showResumePreview(htmlContent) {
+            previewArea.innerHTML = htmlContent;
+        }
+        
+        function downloadResume() {
+            if (!generatedResume) {
+                showNotification('No resume to download', 'error');
+                return;
+            }
+            
+            // Show download options
+            const modal = `
+                <div class="modal-overlay active" id="download-modal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Download Resume</h2>
+                            <button class="modal-close" onclick="hideDownloadModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Choose your preferred download format:</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary btn-md" onclick="downloadAsHTML()">Download HTML</button>
+                            <button class="btn btn-primary btn-md" onclick="downloadAsPDF()">Download PDF</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modal);
+        }
+        
+        function hideDownloadModal() {
+            const modal = document.getElementById('download-modal');
+            if (modal) modal.remove();
+        }
+        
+        function downloadAsHTML() {
+            // Your existing HTML download code
+            const fileName = `tailored_resume_${Date.now()}.html`;
+            const blob = new Blob([`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Tailored Resume</title>
+                    <style>
+                        body { font-family: 'Times New Roman', serif; margin: 0; padding: 1in; line-height: 1.6; }
+                        @media print { body { margin: 0; } }
+                    </style>
+                </head>
+                <body>
+                    ${generatedResume}
+                </body>
+                </html>
+            `], { type: 'text/html' });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            hideDownloadModal();
+            showNotification('HTML resume downloaded successfully!');
+        }
+        
+        // FIXED: Improved PDF download function
+        function downloadAsPDF() {
+            if (!currentTailorId) {
+                showNotification('Could not find resume ID. Try generating again.', 'error');
+                hideDownloadModal();
+                return;
+            }
+            
+            showNotification('Preparing PDF download...');
+            
+            const token = localStorage.getItem('token');
+            
+            // Use fetch to properly handle the PDF response
+            fetch(`/api/resume/download-pdf/${currentTailorId}?token=${token}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || 'Failed to download PDF');
+                    });
+                }
+                
+                // Check if response is actually a PDF
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/pdf')) {
+                    throw new Error('Server did not return a PDF file');
+                }
+                
+                return response.blob();
+            })
+            .then(blob => {
+                // Create download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `tailored_resume_${Date.now()}.pdf`;
+                
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                hideDownloadModal();
+                showNotification('PDF downloaded successfully!');
+            })
+            .catch(error => {
+                console.error('PDF download error:', error);
+                hideDownloadModal();
+                showNotification(`Failed to download PDF: ${error.message}`, 'error');
+            });
+        }
+        
+        function clearAll() {
+            // Reset file
+            removeFile();
+            
+            // Clear form field
+            document.getElementById('job-requirements').value = '';
+            
+            // Reset preview
+            previewArea.innerHTML = `
+                <div class="preview-placeholder">
+                    <div class="preview-placeholder-icon">📄</div>
+                    <h3 style="font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--color-text-light);">Resume Preview</h3>
+                    <p style="font-size: 0.875rem; color: var(--color-text-muted);">Upload your resume and add job requirements to see the tailored version here</p>
+                </div>
+            `;
+            
+            // Reset state
+            generatedResume = null;
+            currentTailorId = null;
+            downloadBtn.classList.add('hidden');
+            
+            // Reset steps
+            updateStep(1, 'active');
+            updateStep(2, '');
+            updateStep(3, '');
+            
+            validateForm();
+            showNotification('All fields cleared');
+        }
+        
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.classList.remove('error');
+            
+            if (type === 'error') {
+                notification.classList.add('error');
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function showLoading(textId, loadingId) {
+            document.getElementById(textId).classList.add('hidden');
+            document.getElementById(loadingId).classList.remove('hidden');
+        }
+        
+        function hideLoading(textId, loadingId) {
+            document.getElementById(loadingId).classList.add('hidden');
+            document.getElementById(textId).classList.remove('hidden');
+        }
+        
+        // Make functions globally available
+        window.removeFile = removeFile;
+        window.hideDownloadModal = hideDownloadModal;
+        window.downloadAsHTML = downloadAsHTML;
+        window.downloadAsPDF = downloadAsPDF;
+    </script>
+</body>
+</html>
