@@ -947,10 +947,10 @@
             <a href="index.html" class="logo">buildfree.io</a>
             
             <nav class="nav">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="resume-changer.html" class="nav-link">Resume Changer</a>
                 <a href="index.html#templates" class="nav-link">Templates</a>
-                <a href="index.html#pricing" class="nav-link">Pricing</a>
+                <a href="index.html#pricing" class="nav-link">Help</a>
             </nav>
             
             <!-- Auth buttons (when not logged in) -->
@@ -974,6 +974,12 @@
                             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                         </svg>
                         Profile
+                    </a>
+                    <a href="resume-changer.html" class="dropdown-item">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                        </svg>
+                        Resume Changer
                     </a>
                     <a href="#" class="dropdown-item" id="database-link">
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
@@ -1021,13 +1027,13 @@
                             <svg class="feature-icon" width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
-                            Simple $12/month pricing
+                            Resume changer with AI
                         </div>
                         <div class="feature-item">
                             <svg class="feature-icon" width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
-                            Cancel anytime
+                            Simple $12/month pricing
                         </div>
                     </div>
                 </div>
@@ -1040,6 +1046,12 @@
                     <h1 class="page-title">Portfolio Dashboard</h1>
                     <div class="page-actions">
                         <span id="admin-badge" class="hidden" style="background: #8b5cf6; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500;">Admin</span>
+                        <button class="btn btn-secondary btn-sm" onclick="window.location.href='resume-changer.html'">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                            </svg>
+                            Resume Changer
+                        </button>
                         <button class="btn btn-secondary btn-sm" id="database-btn">
                             <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
