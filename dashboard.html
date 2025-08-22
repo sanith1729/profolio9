@@ -339,6 +339,14 @@
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
 
+        .grid-5 {
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .grid-6 {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
         /* Templates */
         .template-card {
           background: var(--color-white);
@@ -551,6 +559,10 @@
           width: 100%;
           transform: scale(0.95);
           transition: transform 0.15s ease;
+          max-height: 90vh;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
         }
 
         .modal-overlay.active .modal {
@@ -561,11 +573,27 @@
           max-width: 600px;
         }
 
+        /* NEW: Full-screen modal styles */
+        .modal-fullscreen {
+          max-width: none;
+          width: 95%;
+          height: 95vh;
+          max-height: none;
+          border-radius: var(--radius-lg);
+        }
+
+        .modal-fullscreen .modal-body {
+          flex: 1;
+          overflow-y: auto;
+          max-height: none;
+        }
+
         .modal-header {
           padding: 1.5rem 1.5rem 0;
           display: flex;
           align-items: center;
           justify-content: space-between;
+          flex-shrink: 0;
         }
 
         .modal-title {
@@ -595,6 +623,8 @@
 
         .modal-body {
           padding: 1.5rem;
+          overflow-y: auto;
+          max-height: 60vh;
         }
 
         .modal-footer {
@@ -603,6 +633,7 @@
           justify-content: space-between;
           align-items: center;
           gap: 1rem;
+          flex-shrink: 0;
         }
 
         /* Forms */
@@ -866,6 +897,33 @@
           font-size: 1rem;
         }
 
+        /* Template search and filters */
+        .template-filters {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .search-input {
+          flex: 1;
+          min-width: 200px;
+          padding: 0.75rem 1rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+        }
+
+        .filter-select {
+          padding: 0.75rem 1rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          background: var(--color-white);
+          min-width: 120px;
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
           .header-container {
@@ -896,8 +954,25 @@
           
           .grid-2,
           .grid-3,
-          .grid-4 {
+          .grid-4,
+          .grid-5,
+          .grid-6 {
             grid-template-columns: 1fr;
+          }
+
+          .modal-fullscreen {
+            width: 98%;
+            height: 98vh;
+          }
+
+          .template-filters {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .search-input,
+          .filter-select {
+            min-width: auto;
           }
         }
 
@@ -918,6 +993,13 @@
           
           .modal-footer .btn {
             width: 100%;
+          }
+
+          .modal-fullscreen {
+            width: 100%;
+            height: 100vh;
+            border-radius: 0;
+            margin: 0;
           }
         }
 
@@ -980,12 +1062,6 @@
                             <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
                         </svg>
                         Resume Changer
-                    </a>
-                    <a href="#" class="dropdown-item" id="database-link">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                        </svg>
-                        Database
                     </a>
                     <div class="dropdown-divider"></div>
                     <button class="dropdown-item" id="logout-btn" style="width: 100%; border: none; background: none; text-align: left;">
@@ -1051,12 +1127,6 @@
                                 <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
                             </svg>
                             Resume Changer
-                        </button>
-                        <button class="btn btn-secondary btn-sm" id="database-btn">
-                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                            </svg>
-                            Database
                         </button>
                     </div>
                 </div>
@@ -1431,9 +1501,9 @@
         </div>
     </div>
 
-    <!-- Switch Template Modal -->
+    <!-- Switch Template Modal - NOW FULL SCREEN -->
     <div class="modal-overlay" id="switch-template-modal">
-        <div class="modal modal-large">
+        <div class="modal modal-fullscreen">
             <div class="modal-header">
                 <h2 class="modal-title">Change Template</h2>
                 <button class="modal-close" id="switch-close">×</button>
@@ -1442,7 +1512,21 @@
                 <div class="alert alert-warning">
                     <strong>Note:</strong> Changing your template will preserve your content but apply a new design. You'll need to publish changes to make them live.
                 </div>
-                <div class="grid grid-3" id="switch-templates-grid">
+                
+                <!-- Search and Filter Controls -->
+                <div class="template-filters">
+                    <input type="text" class="search-input" id="template-search" placeholder="Search templates...">
+                    <select class="filter-select" id="category-filter">
+                        <option value="">All Categories</option>
+                        <option value="Business">Business</option>
+                        <option value="Creative">Creative</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Technical">Technical</option>
+                    </select>
+                </div>
+                
+                <!-- Templates Grid - Now with more templates per row -->
+                <div class="grid grid-6" id="switch-templates-grid">
                     <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
                         <div class="spinner" style="margin: 0 auto 1rem;"></div>
                         <p style="color: var(--color-text-light);">Loading templates...</p>
@@ -1475,6 +1559,7 @@
         let currentUser = null;
         let currentPortfolio = null;
         let allTemplates = [];
+        let filteredTemplates = [];
         let selectedTemplate = null;
         let selectedTemplateData = null;
         let currentStep = 1;
@@ -1531,10 +1616,6 @@
             // Logout
             document.getElementById('logout-btn').addEventListener('click', handleLogout);
             
-            // Database links
-            document.getElementById('database-link').addEventListener('click', redirectToDatabase);
-            document.getElementById('database-btn').addEventListener('click', redirectToDatabase);
-            
             // Portfolio creation
             document.getElementById('create-portfolio-btn').addEventListener('click', startPortfolioCreation);
             document.getElementById('next-step-btn').addEventListener('click', nextStep);
@@ -1562,6 +1643,10 @@
                 showModal('switch-template-modal');
             });
             document.getElementById('switch-submit-btn').addEventListener('click', switchTemplate);
+            
+            // Template search and filtering
+            document.getElementById('template-search').addEventListener('input', filterTemplates);
+            document.getElementById('category-filter').addEventListener('change', filterTemplates);
             
             // Portfolio actions
             document.getElementById('copy-link-btn').addEventListener('click', copyPortfolioLink);
@@ -1756,13 +1841,6 @@
         function handleLogout() {
             localStorage.removeItem('token');
             window.location.href = 'index.html';
-        }
-        
-        function redirectToDatabase() {
-            const token = localStorage.getItem('token');
-            if (token) {
-                window.location.href = `/database-dashboard.html?token=${token}`;
-            }
         }
         
         function checkUserPortfolio() {
@@ -2070,6 +2148,7 @@
             const grid = document.getElementById('switch-templates-grid');
             
             if (allTemplates.length > 0) {
+                filteredTemplates = allTemplates;
                 renderSwitchTemplates(allTemplates, grid);
             } else {
                 fetch(`${API_URL}/profolio/templates`, {
@@ -2079,25 +2158,48 @@
                 .then(data => {
                     if (data.templates) {
                         allTemplates = data.templates;
+                        filteredTemplates = data.templates;
                         renderSwitchTemplates(data.templates, grid);
                     }
                 });
             }
         }
         
+        function filterTemplates() {
+            const searchTerm = document.getElementById('template-search').value.toLowerCase();
+            const categoryFilter = document.getElementById('category-filter').value;
+            
+            filteredTemplates = allTemplates.filter(template => {
+                const matchesSearch = template.name.toLowerCase().includes(searchTerm) || 
+                                    (template.description && template.description.toLowerCase().includes(searchTerm));
+                const matchesCategory = !categoryFilter || template.category === categoryFilter;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            const grid = document.getElementById('switch-templates-grid');
+            renderSwitchTemplates(filteredTemplates, grid);
+        }
+        
         function renderSwitchTemplates(templates, container) {
+            if (templates.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 2rem;"><p style="color: var(--color-text-light);">No templates found matching your criteria</p></div>';
+                return;
+            }
+            
             container.innerHTML = templates.map(template => `
                 <div class="template-card ${currentPortfolio && currentPortfolio.templateId === template.id ? 'selected' : ''}" data-id="${template.id}">
                     <div class="template-image">
                         <img src="${template.thumbnail_url || 'https://placehold.co/300x160/f1f3f4/6c757d?text=Template'}" alt="${template.name}">
                         ${currentPortfolio && currentPortfolio.templateId === template.id ? '<div class="template-badge">Current</div>' : ''}
+                        ${selectedTemplate === template.id && currentPortfolio && currentPortfolio.templateId !== template.id ? '<div class="template-badge">✓</div>' : ''}
                     </div>
                     <div class="template-content">
                         <h3 class="template-title">${template.name}</h3>
                         <div class="template-footer">
                             <span class="template-tag">${template.category || 'General'}</span>
-                            <button class="btn btn-sm ${currentPortfolio && currentPortfolio.templateId === template.id ? 'btn-secondary' : 'btn-primary'} switch-template" data-id="${template.id}">
-                                ${currentPortfolio && currentPortfolio.templateId === template.id ? 'Current' : 'Select'}
+                            <button class="btn btn-sm ${currentPortfolio && currentPortfolio.templateId === template.id ? 'btn-secondary' : selectedTemplate === template.id ? 'btn-success' : 'btn-primary'} switch-template" data-id="${template.id}">
+                                ${currentPortfolio && currentPortfolio.templateId === template.id ? 'Current' : selectedTemplate === template.id ? 'Selected' : 'Select'}
                             </button>
                         </div>
                     </div>
@@ -2122,17 +2224,33 @@
                 const badge = card.querySelector('.template-badge');
                 
                 if (card.dataset.id === templateId) {
+                    if (currentPortfolio && currentPortfolio.templateId === templateId) {
+                        // This is the current template
+                        return;
+                    }
                     card.classList.add('selected');
                     button.textContent = 'Selected';
                     button.className = 'btn btn-sm btn-success switch-template';
+                    // Add selected badge if not current
+                    if (!badge || badge.textContent !== 'Current') {
+                        const existingBadge = card.querySelector('.template-badge');
+                        if (existingBadge) existingBadge.remove();
+                        card.querySelector('.template-image').innerHTML += '<div class="template-badge">✓</div>';
+                    }
                 } else if (currentPortfolio && currentPortfolio.templateId === card.dataset.id) {
+                    // This is the current template but not selected
                     card.classList.remove('selected');
                     button.textContent = 'Current';
                     button.className = 'btn btn-sm btn-secondary switch-template';
                 } else {
+                    // Regular unselected template
                     card.classList.remove('selected');
                     button.textContent = 'Select';
                     button.className = 'btn btn-sm btn-primary switch-template';
+                    const existingBadge = card.querySelector('.template-badge');
+                    if (existingBadge && existingBadge.textContent === '✓') {
+                        existingBadge.remove();
+                    }
                 }
             });
         }
