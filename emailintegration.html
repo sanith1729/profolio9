@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Integration | buildfree.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Elegant, minimal design system - matching career-pages.html */
+        :root {
+          /* Elegant, minimal color palette */
+          --color-primary: #2d3142;
+          --color-primary-light: #4f5d75;
+          --color-secondary: #ef8354;
+          --color-secondary-light: #f4a261;
+          --color-accent: #bfc0c0;
+          
+          /* Background colors */
+          --color-body: #ffffff;
+          --color-bg-light: #f8f9fa;
+          --color-bg-dark: #2d3142;
+          
+          /* Text colors */
+          --color-white: #ffffff;
+          --color-text: #2d3142;
+          --color-text-light: #4f5d75;
+          --color-text-muted: #bfc0c0;
+          
+          /* Border colors */
+          --color-border: #e9ecef;
+          --color-border-light: #f8f9fa;
+          
+          /* Status colors */
+          --color-secondary-bg: #fef1eb;
+          --color-secondary-border: #fad1c0;
+          --color-success: #4CAF50;
+          --color-success-bg: #e8f5e9;
+          --color-warning: #FF9800;
+          --color-warning-bg: #fff3e0;
+          --color-error: #F44336;
+          --color-error-bg: #ffebee;
+          
+          /* Other variables */
+          --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          --spacing-xs: 0.25rem;
+          --spacing-sm: 0.5rem;
+          --spacing-md: 1rem;
+          --spacing-lg: 1.5rem;
+          --spacing-xl: 2rem;
+          --spacing-2xl: 3rem;
+          --spacing-3xl: 4rem;
+          --radius-sm: 0.25rem;
+          --radius-md: 0.375rem;
+          --radius-lg: 0.5rem;
+          --radius-xl: 0.75rem;
+          --transition-base: all 0.2s ease;
+        }
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: var(--font-primary);
+          color: var(--color-text);
+          background-color: var(--color-body);
+          line-height: 1.5;
+          font-size: 0.8125rem;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          background: rgba(255, 255, 255, 0.98);
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .header-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 3.5rem;
+        }
+
+        .logo {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          text-decoration: none;
+          letter-spacing: -0.025em;
+        }
+
+        .nav {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+        }
+
+        .nav-link {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+          text-decoration: none;
+          font-weight: 500;
+          transition: var(--transition-base);
+          padding: 0.375rem 0.625rem;
+          border-radius: var(--radius-md);
+        }
+
+        .nav-link:hover {
+          color: var(--color-text);
+          background-color: var(--color-bg-light);
+        }
+
+        .nav-link.active {
+          color: var(--color-secondary);
+          font-weight: 600;
+        }
+
+        /* User menu */
+        .user-menu {
+          position: relative;
+        }
+
+        .user-menu-button {
+          display: flex;
+          align-items: center;
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: var(--color-text);
+          font-size: 0.8125rem;
+          font-weight: 500;
+          padding: 0.25rem 0.5rem;
+          border-radius: var(--radius-md);
+          transition: var(--transition-base);
+        }
+
+        .user-menu-button:hover {
+          background-color: var(--color-bg-light);
+        }
+
+        .user-avatar {
+          width: 1.75rem;
+          height: 1.75rem;
+          border-radius: 9999px;
+          background-color: var(--color-primary);
+          color: var(--color-white);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 0.5rem;
+          font-weight: 600;
+          font-size: 0.75rem;
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          margin-top: 0.25rem;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-lg);
+          min-width: 180px;
+          overflow: hidden;
+          z-index: 10;
+          display: none;
+        }
+
+        .dropdown-menu.active {
+          display: block;
+        }
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          padding: 0.625rem 0.875rem;
+          color: var(--color-text);
+          text-decoration: none;
+          font-size: 0.8125rem;
+          transition: var(--transition-base);
+          background: none;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          text-align: left;
+        }
+
+        .dropdown-item:hover {
+          background-color: var(--color-bg-light);
+        }
+
+        .dropdown-item svg {
+          margin-right: 0.5rem;
+          color: var(--color-text-light);
+          width: 0.875rem;
+          height: 0.875rem;
+        }
+
+        .dropdown-divider {
+          height: 1px;
+          background-color: var(--color-border);
+          margin: 0.25rem 0;
+        }
+
+        /* Page header */
+        .page-header {
+          background: var(--color-white);
+          border-bottom: 1px solid var(--color-border);
+          padding: 2rem 0 1.5rem;
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+        }
+
+        .page-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--color-primary);
+          margin-bottom: 0.375rem;
+          letter-spacing: -0.025em;
+        }
+
+        .page-description {
+          color: var(--color-text-light);
+          font-size: 0.875rem;
+          max-width: 600px;
+        }
+
+        /* Main content */
+        .main-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 1.5rem 0;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 1.25rem;
+          margin-bottom: 2rem;
+        }
+
+        .stat-card {
+          background: var(--color-white);
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--color-border);
+          padding: 1.25rem;
+          box-shadow: var(--shadow-sm);
+          transition: var(--transition-base);
+        }
+
+        .stat-card:hover {
+          box-shadow: var(--shadow-md);
+          transform: translateY(-2px);
+        }
+
+        .stat-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.875rem;
+        }
+
+        .stat-title {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: var(--color-text-light);
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+        }
+
+        .stat-icon {
+          color: var(--color-secondary);
+        }
+
+        .stat-value {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--color-primary);
+          margin-bottom: 0.25rem;
+          letter-spacing: -0.025em;
+        }
+
+        .stat-change {
+          font-size: 0.75rem;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          color: var(--color-text-muted);
+        }
+
+        .stat-change.positive {
+          color: var(--color-success);
+        }
+
+        .stat-change.negative {
+          color: var(--color-error);
+        }
+
+        /* View controls */
+        .view-controls {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.25rem;
+        }
+
+        .view-toggles {
+          display: flex;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          box-shadow: var(--shadow-sm);
+        }
+
+        .view-toggle {
+          padding: 0.5rem 1rem;
+          font-size: 0.75rem;
+          border: none;
+          background: transparent;
+          color: var(--color-text-light);
+          cursor: pointer;
+          transition: var(--transition-base);
+          border-right: 1px solid var(--color-border);
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+          font-weight: 500;
+        }
+
+        .view-toggle:last-child {
+          border-right: none;
+        }
+
+        .view-toggle.active {
+          background: var(--color-secondary);
+          color: var(--color-white);
+        }
+
+        .view-toggle:not(.active):hover {
+          background: var(--color-secondary-bg);
+          color: var(--color-secondary);
+        }
+
+        /* Filter controls */
+        .filter-controls {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .filter-select {
+          height: 2rem;
+          padding: 0 0.875rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          color: var(--color-text);
+          transition: var(--transition-base);
+          background-color: var(--color-white);
+        }
+
+        .filter-select:focus {
+          outline: none;
+          border-color: var(--color-secondary);
+          box-shadow: 0 0 0 3px rgba(239, 131, 84, 0.15);
+        }
+
+        /* Integration and email sections */
+        .section-container {
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          box-shadow: var(--shadow-md);
+          margin-bottom: 2rem;
+        }
+
+        .section-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem 1.25rem;
+          background: var(--color-bg-light);
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .section-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+        }
+
+        .section-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .search-input {
+          height: 2rem;
+          width: 240px;
+          padding: 0 0.875rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          color: var(--color-text);
+          transition: var(--transition-base);
+          background-color: var(--color-white);
+        }
+
+        .search-input:focus {
+          outline: none;
+          border-color: var(--color-secondary);
+          box-shadow: 0 0 0 3px rgba(239, 131, 84, 0.15);
+        }
+
+        /* Integrations list */
+        .integrations-list {
+          padding: 1.25rem;
+        }
+
+        .integration-card {
+          background-color: var(--color-bg-light);
+          border-radius: var(--radius-md);
+          border: 1px solid var(--color-border);
+          margin-bottom: 1rem;
+          padding: 1rem;
+          transition: var(--transition-base);
+        }
+
+        .integration-card:hover {
+          box-shadow: var(--shadow-md);
+          transform: translateY(-2px);
+        }
+
+        .integration-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+        }
+
+        .integration-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .integration-name {
+          font-weight: 600;
+          font-size: 0.875rem;
+          color: var(--color-primary);
+        }
+
+        .integration-meta {
+          font-size: 0.75rem;
+          color: var(--color-text-light);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .integration-meta-item {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+
+        .integration-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .status-badge {
+          display: inline-flex;
+          align-items: center;
+          padding: 0.25rem 0.5rem;
+          border-radius: 9999px;
+          font-size: 0.6875rem;
+          font-weight: 600;
+          margin-top: 0.5rem;
+        }
+
+        .status-badge.active {
+          background-color: var(--color-success-bg);
+          color: var(--color-success);
+        }
+
+        .status-badge.error {
+          background-color: var(--color-error-bg);
+          color: var(--color-error);
+        }
+
+        .status-badge.expired {
+          background-color: var(--color-warning-bg);
+          color: var(--color-warning);
+        }
+
+        .integration-error {
+          font-size: 0.75rem;
+          color: var(--color-error);
+          margin-top: 0.5rem;
+        }
+
+        /* Provider options */
+        .provider-options {
+          display: flex;
+          gap: 1rem;
+          margin-top: 1.5rem;
+        }
+
+        /* Emails content */
+        .emails-list {
+          padding: 1.25rem;
+        }
+
+        .company-section {
+          margin-bottom: 1.5rem;
+        }
+
+        .company-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem;
+          border-radius: var(--radius-md);
+          background-color: var(--color-bg-light);
+          margin-bottom: 0.5rem;
+          cursor: pointer;
+        }
+
+        .company-header:hover {
+          background-color: var(--color-secondary-bg);
+        }
+
+        .company-name {
+          font-weight: 600;
+          font-size: 0.875rem;
+          color: var(--color-primary);
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+        }
+
+        .company-email-count {
+          font-size: 0.75rem;
+          color: var(--color-text-light);
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+
+        .email-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem;
+          border-bottom: 1px solid var(--color-border-light);
+          transition: var(--transition-base);
+          cursor: pointer;
+        }
+
+        .email-row:hover {
+          background-color: var(--color-bg-light);
+        }
+
+        .email-row:last-child {
+          border-bottom: none;
+        }
+
+        .email-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .email-subject {
+          font-weight: 500;
+          font-size: 0.875rem;
+          color: var(--color-primary);
+        }
+
+        .email-subject.unread {
+          font-weight: 600;
+          color: var(--color-secondary);
+        }
+
+        .email-metadata {
+          font-size: 0.75rem;
+          color: var(--color-text-light);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .email-time {
+          font-size: 0.75rem;
+          color: var(--color-text-muted);
+        }
+
+        .category-tag {
+          display: inline-flex;
+          align-items: center;
+          padding: 0.125rem 0.375rem;
+          border-radius: 9999px;
+          font-size: 0.625rem;
+          font-weight: 500;
+          background-color: var(--color-bg-light);
+          color: var(--color-text-light);
+          margin-right: 0.25rem;
+        }
+
+        /* Email detail modal */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(45, 49, 66, 0.75);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s ease;
+          backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .email-detail-modal {
+          background: var(--color-white);
+          border-radius: var(--radius-xl);
+          width: 90%;
+          max-width: 700px;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: var(--shadow-xl);
+          transform: translateY(20px);
+          transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .email-detail-modal {
+          transform: translateY(0);
+        }
+
+        .modal-header {
+          padding: 1.25rem;
+          border-bottom: 1px solid var(--color-border);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .modal-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-primary);
+        }
+
+        .modal-close {
+          width: 1.75rem;
+          height: 1.75rem;
+          border-radius: 9999px;
+          background: transparent;
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: var(--color-text-light);
+          transition: var(--transition-base);
+        }
+
+        .modal-close:hover {
+          background: var(--color-bg-light);
+          color: var(--color-primary);
+        }
+
+        .modal-content {
+          padding: 1.25rem;
+        }
+
+        .email-header {
+          margin-bottom: 1.25rem;
+        }
+
+        .email-subject-line {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          margin-bottom: 0.5rem;
+        }
+
+        .email-header-details {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          font-size: 0.75rem;
+          color: var(--color-text-light);
+        }
+
+        .email-header-item {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .email-header-label {
+          font-weight: 600;
+          min-width: 3rem;
+        }
+
+        .email-body {
+          padding: 1rem;
+          background-color: var(--color-bg-light);
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          color: var(--color-text);
+          line-height: 1.6;
+          white-space: pre-wrap;
+        }
+
+        .email-attachments {
+          margin-top: 1.25rem;
+        }
+
+        .attachments-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          margin-bottom: 0.5rem;
+        }
+
+        .attachment-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .attachment-item {
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+          padding: 0.375rem 0.625rem;
+          background-color: var(--color-bg-light);
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          color: var(--color-text);
+          text-decoration: none;
+          transition: var(--transition-base);
+        }
+
+        .attachment-item:hover {
+          background-color: var(--color-secondary-bg);
+          color: var(--color-secondary);
+        }
+
+        .modal-footer {
+          padding: 1.25rem;
+          border-top: 1px solid var(--color-border);
+          display: flex;
+          justify-content: flex-end;
+          gap: 0.75rem;
+        }
+
+        /* Alias modal */
+        .alias-modal {
+          background: var(--color-white);
+          border-radius: var(--radius-xl);
+          width: 90%;
+          max-width: 500px;
+          box-shadow: var(--shadow-xl);
+          transform: translateY(20px);
+          transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .alias-modal {
+          transform: translateY(0);
+        }
+
+        .alias-list {
+          margin: 1rem 0;
+        }
+
+        .alias-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .alias-item:last-child {
+          border-bottom: none;
+        }
+
+        .alias-text {
+          font-size: 0.875rem;
+          color: var(--color-text);
+        }
+
+        .alias-form {
+          display: flex;
+          gap: 0.5rem;
+          margin-top: 1rem;
+        }
+
+        .alias-input {
+          flex: 1;
+          height: 2.25rem;
+          padding: 0 0.875rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          color: var(--color-text);
+        }
+
+        .alias-input:focus {
+          outline: none;
+          border-color: var(--color-secondary);
+          box-shadow: 0 0 0 3px rgba(239, 131, 84, 0.15);
+        }
+
+        /* Common button styles */
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          font-weight: 500;
+          padding: 0.5rem 1rem;
+          transition: var(--transition-base);
+          cursor: pointer;
+          border: none;
+        }
+
+        .btn-sm {
+          padding: 0.375rem 0.75rem;
+          font-size: 0.75rem;
+        }
+
+        .btn-primary {
+          background-color: var(--color-secondary);
+          color: var(--color-white);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+          background-color: var(--color-secondary-light);
+          transform: translateY(-1px);
+          box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary {
+          background-color: var(--color-white);
+          color: var(--color-text);
+          border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+          background-color: var(--color-bg-light);
+          color: var(--color-primary);
+          transform: translateY(-1px);
+        }
+
+        .btn-danger {
+          background-color: var(--color-error-bg);
+          color: var(--color-error);
+        }
+
+        .btn-danger:hover:not(:disabled) {
+          background-color: var(--color-error);
+          color: var(--color-white);
+        }
+
+        .btn-icon {
+          width: 2rem;
+          height: 2rem;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 9999px;
+        }
+
+        .btn-icon.btn-sm {
+          width: 1.75rem;
+          height: 1.75rem;
+        }
+
+        /* Provider buttons */
+        .btn-provider {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.625rem 1.25rem;
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          font-weight: 500;
+          transition: var(--transition-base);
+          cursor: pointer;
+          border: 1px solid var(--color-border);
+        }
+
+        .btn-google {
+          background-color: #ffffff;
+          color: #4285f4;
+        }
+
+        .btn-google:hover {
+          background-color: #f1f5fe;
+          box-shadow: var(--shadow-sm);
+        }
+
+        .btn-outlook {
+          background-color: #ffffff;
+          color: #0078d4;
+        }
+
+        .btn-outlook:hover {
+          background-color: #f0f8ff;
+          box-shadow: var(--shadow-sm);
+        }
+
+        /* Empty and loading states */
+        .empty-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2.5rem;
+          color: var(--color-text-light);
+          text-align: center;
+        }
+
+        .empty-state svg {
+          color: var(--color-text-muted);
+          margin-bottom: 0.75rem;
+        }
+
+        .loading-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2.5rem;
+          color: var(--color-text-light);
+        }
+
+        .loading-spinner {
+          display: inline-block;
+          width: 1.75rem;
+          height: 1.75rem;
+          border: 2px solid var(--color-border);
+          border-radius: 50%;
+          border-top-color: var(--color-secondary);
+          animation: spin 1s linear infinite;
+          margin-bottom: 0.75rem;
+        }
+
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+
+        /* Notification toast */
+        .notification {
+          position: fixed;
+          bottom: 1.25rem;
+          right: 1.25rem;
+          width: 280px;
+          background: var(--color-white);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-xl);
+          display: flex;
+          border-left: 4px solid var(--color-secondary);
+          transform: translateY(100px);
+          opacity: 0;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+          z-index: 1000;
+        }
+
+        .notification.show {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .notification-content {
+          flex-grow: 1;
+          padding: 0.75rem;
+        }
+
+        .notification-title {
+          font-size: 0.75rem;
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+          color: var(--color-primary);
+        }
+
+        .notification-message {
+          font-size: 0.75rem;
+          color: var(--color-text-light);
+        }
+
+        .notification-success {
+          border-left-color: var(--color-success);
+        }
+
+        .notification-error {
+          border-left-color: var(--color-error);
+        }
+
+        /* Utility classes */
+        .hidden {
+          display: none !important;
+        }
+        
+        .capitalize {
+          text-transform: capitalize;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+          .nav {
+            display: none;
+          }
+          
+          .stats-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .search-input {
+            width: 160px;
+          }
+          
+          .view-controls {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+          }
+          
+          .provider-options {
+            flex-direction: column;
+            width: 100%;
+          }
+          
+          .btn-provider {
+            width: 100%;
+            justify-content: center;
+          }
+          
+          .integration-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+          }
+          
+          .integration-actions {
+            width: 100%;
+            justify-content: flex-end;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .container {
+            padding: 0 0.75rem;
+          }
+          
+          .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+          }
+          
+          .section-actions {
+            width: 100%;
+          }
+          
+          .search-input {
+            width: 100%;
+          }
+          
+          .notification {
+            left: 1.25rem;
+            width: auto;
+          }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">buildfree.io</a>
+            
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="resume-changer.html" class="nav-link">Resume Changer</a>
+                <a href="career-pages.html" class="nav-link">Career Pages</a>
+                <a href="email-integration.html" class="nav-link active">Email Integration</a>
+                <a href="index.html#templates" class="nav-link">Templates</a>
+                <a href="index.html#help" class="nav-link">Help</a>
+            </nav>
+            
+            <!-- Auth navigation (will be toggled based on auth state) -->
+            <div class="nav-actions" id="auth-nav" style="display: none;">
+                <button class="btn btn-secondary" id="login-btn">Sign in</button>
+                <button class="btn btn-primary" id="signup-btn">Get started</button>
+            </div>
+            
+            <!-- User menu (when logged in) -->
+            <div class="user-menu" id="user-menu" style="display: none;">
+                <button class="user-menu-button" id="user-menu-btn">
+                    <div class="user-avatar" id="user-avatar">J</div>
+                    <span id="user-name">John Doe</span>
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="dropdown-menu" id="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2.5 14C2.5 11.5147 4.51472 9.5 7 9.5H9C11.4853 9.5 13.5 11.5147 13.5 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Profile
+                    </a>
+                    <a href="resume-changer.html" class="dropdown-item">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.16683 1.16666H3.50016C3.19074 1.16666 2.89379 1.28957 2.6813 1.50837C2.46881 1.72716 2.3335 2.03188 2.3335 2.34999V11.65C2.3335 11.9681 2.46881 12.2728 2.6813 12.4916C2.89379 12.7104 3.19074 12.8333 3.50016 12.8333H10.5002C10.8096 12.8333 11.1066 12.7104 11.319 12.4916C11.5315 12.2728 11.6668 11.9681 11.6668 11.65V4.66666L8.16683 1.16666Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8.1665 1.16666V4.66666H11.6665" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Resume Changer
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item" id="logout-btn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V3.33333C2 2.97971 2.14048 2.64057 2.39052 2.39052C2.64057 2.14048 2.97971 2 3.33333 2H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.6667 11.3333L14 8L10.6667 4.66667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Sign out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">Email Integration</h1>
+            <p class="page-description">
+                Connect your email accounts to automatically track responses to your job applications.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <div class="main-content">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Total Emails</div>
+                        <div class="stat-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 4L7 8.5L12 4M2.5 2H11.5C12.3284 2 13 2.67157 13 3.5V10.5C13 11.3284 12.3284 12 11.5 12H2.5C1.67157 12 1 11.3284 1 10.5V3.5C1 2.67157 1.67157 2 2.5 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="total-emails">-</div>
+                    <div class="stat-change" id="emails-change">
+                        <span>From all companies</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Unread Emails</div>
+                        <div class="stat-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.5 11.5C9.70914 11.5 11.5 9.70914 11.5 7.5C11.5 5.29086 9.70914 3.5 7.5 3.5C5.29086 3.5 3.5 5.29086 3.5 7.5C3.5 9.70914 5.29086 11.5 7.5 11.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13.5 13.5L10.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="unread-emails">-</div>
+                    <div class="stat-change positive" id="unread-change">
+                        <span>Pending review</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Active Integrations</div>
+                        <div class="stat-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 2V14M8 2L4 6M8 2L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="active-integrations">-</div>
+                    <div class="stat-change" id="integrations-change">
+                        <span>Connected accounts</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Controls -->
+            <div class="view-controls">
+                <div class="view-toggles">
+                    <button class="view-toggle active" data-view="integrations">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.5 14H3.5C2.96957 14 2.46086 13.7893 2.08579 13.4142C1.71071 13.0391 1.5 12.5304 1.5 12V4C1.5 3.46957 1.71071 2.96086 2.08579 2.58579C2.46086 2.21071 2.96957 2 3.5 2H6.5M10.5 11L13.5 8L10.5 5M13.5 8H6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Integrations
+                    </button>
+                    <button class="view-toggle" data-view="emails">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 4L7 8.5L12 4M2.5 2H11.5C12.3284 2 13 2.67157 13 3.5V10.5C13 11.3284 12.3284 12 11.5 12H2.5C1.67157 12 1 11.3284 1 10.5V3.5C1 2.67157 1.67157 2 2.5 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Emails
+                    </button>
+                    <button class="view-toggle" data-view="settings">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.44444 14H9.55556M6.44444 14C6.44444 12.8954 7.34127 12 8.44444 12C9.54762 12 10.4444 12.8954 10.4444 14M6.44444 14H2M9.55556 14H14M4 8.66667V7.55556M4 7.55556V2.44444C4 2.19898 4.19898 2 4.44444 2H6.11111C6.35658 2 6.55556 2.19898 6.55556 2.44444V7.55556M4 7.55556H6.55556M12 7.55556V2.44444C12 2.19898 12.199 2 12.4444 2H12.5556C12.801 2 13 2.19898 13 2.44444V7.55556M12 7.55556V9.22222M12 7.55556H13M8 7.55556V5.22222M8 7.55556V9.22222M8 7.55556H9.5M8 7.55556H6.55556" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Settings
+                    </button>
+                </div>
+                
+                <div id="filter-controls" class="filter-controls hidden">
+                    <select id="company-filter" class="filter-select">
+                        <option value="">All Companies</option>
+                    </select>
+                    
+                    <select id="category-filter" class="filter-select">
+                        <option value="">All Categories</option>
+                    </select>
+                    
+                    <input type="text" class="search-input" id="email-search" placeholder="Search emails...">
+                </div>
+            </div>
+            
+            <!-- Integrations View -->
+            <div id="integrations-view" class="view-content">
+                <div class="section-container">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.5 14H3.5C2.96957 14 2.46086 13.7893 2.08579 13.4142C1.71071 13.0391 1.5 12.5304 1.5 12V4C1.5 3.46957 1.71071 2.96086 2.08579 2.58579C2.46086 2.21071 2.96957 2 3.5 2H6.5M10.5 11L13.5 8L10.5 5M13.5 8H6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Connected Email Accounts</span>
+                        </div>
+                    </div>
+                    <div class="integrations-list" id="integrations-list">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading integrations...</p>
+                        </div>
+                    </div>
+                    <div class="provider-options">
+                        <button id="connect-gmail" class="btn-provider btn-google">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.26H17.92C17.66 15.63 16.88 16.79 15.71 17.57V20.34H19.28C21.36 18.42 22.56 15.6 22.56 12.25Z" fill="#4285F4"/>
+                                <path d="M12 23C14.97 23 17.46 22.02 19.28 20.34L15.71 17.57C14.75 18.21 13.48 18.59 12 18.59C9.11 18.59 6.67 16.64 5.79 14H2.13V16.87C3.94 20.49 7.67 23 12 23Z" fill="#34A853"/>
+                                <path d="M5.79 14C5.57 13.36 5.45 12.68 5.45 12C5.45 11.32 5.57 10.64 5.79 10H2.13V12.87H5.79V14Z" fill="#FBBC05"/>
+                                <path d="M12 5.41C13.59 5.41 15.03 5.99 16.15 7.04L19.3 3.89C17.46 2.16 14.97 1 12 1C7.67 1 3.94 3.51 2.13 7.13L5.79 10C6.67 7.36 9.11 5.41 12 5.41Z" fill="#EA4335"/>
+                            </svg>
+                            Connect Gmail
+                        </button>
+                        <button id="connect-outlook" class="btn-provider btn-outlook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.1789 5.25H11.0273V18.75H21.1789C21.6328 18.75 22 18.3633 22 17.9V6.1C22 5.63672 21.6328 5.25 21.1789 5.25Z" fill="#0078D4"/>
+                                <path d="M11.0273 5.25H2.82107C2.36719 5.25 2 5.63672 2 6.1V17.8906C2 18.3633 2.36719 18.75 2.82107 18.75H11.0273V5.25Z" fill="#0078D4"/>
+                                <path d="M11.0273 10.5H2V13.5H11.0273V10.5Z" fill="#ffffff"/>
+                            </svg>
+                            Connect Outlook
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Emails View -->
+            <div id="emails-view" class="view-content hidden">
+                <div class="section-container">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 4L7 8.5L12 4M2.5 2H11.5C12.3284 2 13 2.67157 13 3.5V10.5C13 11.3284 12.3284 12 11.5 12H2.5C1.67157 12 1 11.3284 1 10.5V3.5C1 2.67157 1.67157 2 2.5 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Job Application Emails</span>
+                        </div>
+                        <div class="section-actions">
+                            <input type="text" class="search-input" id="company-search" placeholder="Search companies...">
+                        </div>
+                    </div>
+                    <div class="emails-list" id="emails-list">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading emails...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings View -->
+            <div id="settings-view" class="view-content hidden">
+                <div class="section-container">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 11.5C9.933 11.5 11.5 9.933 11.5 8C11.5 6.067 9.933 4.5 8 4.5C6.067 4.5 4.5 6.067 4.5 8C4.5 9.933 6.067 11.5 8 11.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8.5 2.5V1.5H7.5V2.5M8.5 14.5V13.5H7.5V14.5M13.5 8.5H14.5V7.5H13.5M2.5 8.5H1.5V7.5H2.5M11.5 4.5L12.5 3.5L11.5 2.5L10.5 3.5M4.5 11.5L3.5 12.5L4.5 13.5L5.5 12.5M11.5 13.5L12.5 12.5L11.5 11.5L10.5 12.5M4.5 4.5L3.5 3.5L4.5 2.5L5.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Email Categories</span>
+                        </div>
+                    </div>
+                    <div class="integrations-list" id="categories-list">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading categories...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-container">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 3.5H13.5V6M9.5 14H3.5C2.96957 14 2.46086 13.7893 2.08579 13.4142C1.71071 13.0391 1.5 12.5304 1.5 12V4C1.5 3.46957 1.71071 2.96086 2.08579 2.58579C2.46086 2.21071 2.96957 2 3.5 2H9.5L13.5 6V12C13.5 12.5304 13.2893 13.0391 12.9142 13.4142C12.5391 13.7893 12.0304 14 11.5 14H11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4.5 11L6.5 9L8.5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6.5 9V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Company Aliases</span>
+                        </div>
+                        <div class="section-actions">
+                            <select id="company-alias-select" class="filter-select">
+                                <option value="">Select Company</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="integrations-list" id="aliases-list">
+                        <div class="empty-state">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <p>Select a company to manage aliases</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Email Detail Modal -->
+    <div class="modal-overlay" id="email-modal-overlay">
+        <div class="email-detail-modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-email-title">Email Details</div>
+                <button class="modal-close" onclick="closeEmailModal()">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4L12 12M4 12L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="email-header">
+                    <h2 class="email-subject-line" id="email-subject-line">Loading subject...</h2>
+                    <div class="email-header-details">
+                        <div class="email-header-item">
+                            <span class="email-header-label">From:</span>
+                            <span id="email-from">Loading...</span>
+                        </div>
+                        <div class="email-header-item">
+                            <span class="email-header-label">To:</span>
+                            <span id="email-to">Loading...</span>
+                        </div>
+                        <div class="email-header-item">
+                            <span class="email-header-label">Date:</span>
+                            <span id="email-date">Loading...</span>
+                        </div>
+                        <div class="email-header-item">
+                            <span class="email-header-label">Company:</span>
+                            <span id="email-company">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="email-body" id="email-body">
+                    Loading email content...
+                </div>
+                
+                <div class="email-attachments" id="email-attachments-container">
+                    <h3 class="attachments-title">Attachments</h3>
+                    <div class="attachment-list" id="email-attachments">
+                        <!-- Attachments will be inserted here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="categorize-email-btn">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 14H3C2.46957 14 1.96086 13.7893 1.58579 13.4142C1.21071 13.0391 1 12.5304 1 12V4C1 3.46957 1.21071 2.96086 1.58579 2.58579C1.96086 2.21071 2.46957 2 3 2H6.5M8 2H11C11.5304 2 12.0391 2.21071 12.4142 2.58579C12.7893 2.96086 13 3.46957 13 4V7M7 2V5C7 5.26522 7.10536 5.51957 7.29289 5.70711C7.48043 5.89464 7.73478 6 8 6H11L13 8M10 10.5V15M7.5 13H12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Categorize
+                </button>
+                <button class="btn btn-primary" id="mark-read-btn">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 4L6 12L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Mark as Read
+                </button>
+                <button class="btn btn-secondary" onclick="closeEmailModal()">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Alias Modal -->
+    <div class="modal-overlay" id="alias-modal-overlay">
+        <div class="alias-modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-alias-title">Company Aliases</div>
+                <button class="modal-close" onclick="closeAliasModal()">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4L12 12M4 12L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <p>Add alternative names that might appear in emails from this company.</p>
+                
+                <div class="alias-list" id="modal-alias-list">
+                    <!-- Aliases will be listed here -->
+                </div>
+                
+                <form id="alias-form" class="alias-form">
+                    <input type="text" id="alias-input" class="alias-input" placeholder="Enter new alias..." required>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAliasModal()">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification notification-success" id="notification">
+        <div class="notification-content">
+            <div class="notification-title">Success</div>
+            <div class="notification-message" id="notification-message">Operation completed successfully</div>
+        </div>
+    </div>
+    
+    <script>
+        // State
+        let currentUser = null;
+        let integrations = [];
+        let companies = [];
+        let companyEmails = {};
+        let categories = [];
+        let aliases = {};
+        let currentView = 'integrations';
+        let isLoading = false;
+        let currentCompanyId = null;
+        let currentEmailId = null;
+        
+        // API Configuration
+        const API_URL = '/api';
+        
+        // DOM Elements
+        const userMenu = document.getElementById('user-menu');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        const authNav = document.getElementById('auth-nav');
+        const integrationsView = document.getElementById('integrations-view');
+        const emailsView = document.getElementById('emails-view');
+        const settingsView = document.getElementById('settings-view');
+        const filterControls = document.getElementById('filter-controls');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            checkAuth();
+            
+            // Check URL parameters (used for OAuth callbacks)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error')) {
+                showNotification(urlParams.get('error'), 'error');
+                // Clear the URL parameters
+                window.history.replaceState({}, document.title, '/email-integration.html');
+            }
+            if (urlParams.has('success')) {
+                showNotification(urlParams.get('success'), 'success');
+                // Clear the URL parameters
+                window.history.replaceState({}, document.title, '/email-integration.html');
+            }
+        });
+        
+        // Enhanced API call with better error handling
+        async function makeApiCall(url, options = {}) {
+            const token = localStorage.getItem('token');
+            
+            const defaultHeaders = {
+                'Authorization': `Bearer ${token}`
+            };
+            
+            // Don't set Content-Type for FormData
+            if (!(options.body instanceof FormData)) {
+                defaultHeaders['Content-Type'] = 'application/json';
+            }
+            
+            const config = {
+                ...options,
+                headers: {
+                    ...defaultHeaders,
+                    ...(options.headers || {})
+                }
+            };
+            
+            try {
+                const response = await fetch(url, config);
+                
+                if (response.status === 401) {
+                    // Token expired or invalid
+                    localStorage.removeItem('token');
+                    showNotification('Please log in again', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html?mode=login';
+                    }, 1500);
+                    throw new Error('Authentication expired');
+                }
+                
+                if (!response.ok) {
+                    let errorData;
+                    try {
+                        errorData = await response.json();
+                    } catch {
+                        errorData = { error: `HTTP ${response.status}` };
+                    }
+                    throw new Error(errorData.error || `Request failed with status ${response.status}`);
+                }
+                
+                return response;
+            } catch (error) {
+                console.error('API call failed:', error);
+                throw error;
+            }
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // User menu dropdown
+            document.getElementById('user-menu-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (dropdownMenu.classList.contains('active') && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('active');
+                }
+            });
+            
+            // Auth navigation
+            document.getElementById('login-btn')?.addEventListener('click', () => {
+                window.location.href = 'dashboard.html?mode=login';
+            });
+            
+            document.getElementById('signup-btn')?.addEventListener('click', () => {
+                window.location.href = 'dashboard.html?mode=signup';
+            });
+            
+            // Logout
+            document.getElementById('logout-btn')?.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+            });
+            
+            // View toggles
+            document.querySelectorAll('.view-toggle').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const view = toggle.dataset.view;
+                    switchView(view);
+                });
+            });
+            
+            // Provider buttons
+            document.getElementById('connect-gmail').addEventListener('click', () => {
+                connectProvider('google');
+            });
+            
+            document.getElementById('connect-outlook').addEventListener('click', () => {
+                connectProvider('outlook');
+            });
+            
+            // Company filter for aliases
+            document.getElementById('company-alias-select').addEventListener('change', (e) => {
+                const companyId = e.target.value;
+                if (companyId) {
+                    loadCompanyAliases(companyId);
+                } else {
+                    // Show empty state
+                    document.getElementById('aliases-list').innerHTML = `
+                        <div class="empty-state">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <p>Select a company to manage aliases</p>
+                        </div>
+                    `;
+                }
+            });
+            
+            // Email search
+            document.getElementById('company-search').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filterCompanies(searchTerm);
+            });
+            
+            // Alias form
+            document.getElementById('alias-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const alias = document.getElementById('alias-input').value.trim();
+                if (alias && currentCompanyId) {
+                    addCompanyAlias(currentCompanyId, alias);
+                }
+            });
+            
+            // Close modal when pressing ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeEmailModal();
+                    closeAliasModal();
+                }
+            });
+            
+            // Email modal buttons
+            document.getElementById('mark-read-btn').addEventListener('click', () => {
+                if (currentEmailId) {
+                    markEmailAsRead(currentEmailId);
+                }
+            });
+            
+            document.getElementById('categorize-email-btn').addEventListener('click', () => {
+                // TODO: Implement email categorization
+                showNotification('Email categorization coming soon!', 'info');
+            });
+        }
+        
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            
+            if (token) {
+                fetch(`${API_URL}/auth/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.user) {
+                        currentUser = data.user;
+                        showAuthenticatedUI();
+                        loadDashboardData();
+                    } else {
+                        throw new Error('Invalid token');
+                    }
+                })
+                .catch(() => {
+                    localStorage.removeItem('token');
+                    showUnauthenticatedUI();
+                });
+            } else {
+                showUnauthenticatedUI();
+            }
+        }
+        
+        // Show authenticated UI
+        function showAuthenticatedUI() {
+            if (authNav) authNav.style.display = 'none';
+            if (userMenu) userMenu.style.display = 'block';
+            
+            if (currentUser) {
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+        }
+        
+        // Show unauthenticated UI
+        function showUnauthenticatedUI() {
+            if (authNav) authNav.style.display = 'flex';
+            if (userMenu) userMenu.style.display = 'none';
+            
+            // Redirect to login if not authenticated
+            window.location.href = 'dashboard.html?mode=login';
+        }
+        
+        // Show loading state
+        function showLoadingState() {
+            if (isLoading) return;
+            isLoading = true;
+            document.body.classList.add('loading');
+            
+            // Disable buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.disabled = true;
+            });
+        }
+        
+        // Hide loading state
+        function hideLoadingState() {
+            isLoading = false;
+            document.body.classList.remove('loading');
+            
+            // Re-enable buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.disabled = false;
+            });
+        }
+        
+        // Load all dashboard data
+        async function loadDashboardData() {
+            try {
+                showLoadingState();
+                
+                // Load dashboard stats
+                await loadDashboardStats();
+                
+                // Load integrations
+                await loadIntegrations();
+                
+                // Load companies with emails
+                await loadCompaniesWithEmails();
+                
+                // Load categories
+                await loadCategories();
+                
+                // Update UI based on current view
+                renderCurrentView();
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showNotification('Failed to load data. Please refresh the page.', 'error');
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Load dashboard stats
+        async function loadDashboardStats() {
+            try {
+                const response = await makeApiCall(`${API_URL}/email/dashboard`);
+                const data = await response.json();
+                
+                // Update stats
+                document.getElementById('total-emails').textContent = data.stats.totalEmails || 0;
+                document.getElementById('unread-emails').textContent = data.stats.unreadEmails || 0;
+                document.getElementById('active-integrations').textContent = data.stats.activeIntegrations || 0;
+                
+            } catch (error) {
+                console.error('Error loading dashboard stats:', error);
+                showNotification('Failed to load dashboard stats', 'error');
+            }
+        }
+        
+        // Load integrations
+        async function loadIntegrations() {
+            try {
+                const response = await makeApiCall(`${API_URL}/email/integrations`);
+                const data = await response.json();
+                
+                integrations = data.integrations || [];
+                renderIntegrations();
+                
+                return integrations;
+            } catch (error) {
+                console.error('Error loading integrations:', error);
+                showNotification('Failed to load email integrations', 'error');
+                return [];
+            }
+        }
+        
+        // Load companies with emails
+        async function loadCompaniesWithEmails() {
+            try {
+                // First, get all companies that user has applied to
+                const response = await makeApiCall(`${API_URL}/career/applications`);
+                const data = await response.json();
+                
+                // Filter to only companies with 'applied' status
+                companies = data.applications
+                    .filter(app => app.status === 'applied')
+                    .map(app => app.company);
+                
+                // Update company alias dropdown
+                updateCompanyAliasDropdown();
+                
+                // Load emails for each company
+                for (const company of companies) {
+                    await loadCompanyEmails(company.id);
+                }
+                
+                return companies;
+            } catch (error) {
+                console.error('Error loading companies with emails:', error);
+                showNotification('Failed to load company data', 'error');
+                return [];
+            }
+        }
+        
+        // Load emails for a specific company
+        async function loadCompanyEmails(companyId) {
+            try {
+                const response = await makeApiCall(`${API_URL}/email/company/${companyId}`);
+                const data = await response.json();
+                
+                companyEmails[companyId] = data;
+                return data;
+            } catch (error) {
+                console.error(`Error loading emails for company ${companyId}:`, error);
+                companyEmails[companyId] = { emails: [], threads: [] };
+                return { emails: [], threads: [] };
+            }
+        }
+        
+        // Load email categories
+        async function loadCategories() {
+            try {
+                const response = await makeApiCall(`${API_URL}/email/categories`);
+                const data = await response.json();
+                
+                categories = data.categories || [];
+                renderCategories();
+                
+                return categories;
+            } catch (error) {
+                console.error('Error loading email categories:', error);
+                return [];
+            }
+        }
+        
+        // Load company aliases
+        async function loadCompanyAliases(companyId) {
+            try {
+                showLoadingState();
+                document.getElementById('aliases-list').innerHTML = `
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading aliases...</p>
+                    </div>
+                `;
+                
+                const response = await makeApiCall(`${API_URL}/email/company/${companyId}/aliases`);
+                const data = await response.json();
+                
+                aliases[companyId] = data.aliases || [];
+                currentCompanyId = companyId;
+                
+                renderCompanyAliases(companyId);
+            } catch (error) {
+                console.error(`Error loading aliases for company ${companyId}:`, error);
+                document.getElementById('aliases-list').innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p>Error loading aliases. Please try again.</p>
+                    </div>
+                `;
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Add company alias
+        async function addCompanyAlias(companyId, alias) {
+            try {
+                showLoadingState();
+                
+                const response = await makeApiCall(`${API_URL}/email/company/${companyId}/alias`, {
+                    method: 'POST',
+                    body: JSON.stringify({ alias })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Alias added successfully');
+                    
+                    // Update aliases in state
+                    if (!aliases[companyId]) {
+                        aliases[companyId] = [];
+                    }
+                    aliases[companyId].push(data.alias);
+                    
+                    // Clear input
+                    document.getElementById('alias-input').value = '';
+                    
+                    // Re-render aliases
+                    renderCompanyAliases(companyId);
+                }
+            } catch (error) {
+                console.error('Error adding company alias:', error);
+                showNotification('Failed to add alias', 'error');
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Delete company alias
+        async function deleteCompanyAlias(aliasId) {
+            try {
+                showLoadingState();
+                
+                const response = await makeApiCall(`${API_URL}/email/alias/${aliasId}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Alias deleted successfully');
+                    
+                    // Refresh aliases
+                    await loadCompanyAliases(currentCompanyId);
+                }
+            } catch (error) {
+                console.error('Error deleting company alias:', error);
+                showNotification('Failed to delete alias', 'error');
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Get email details
+        async function getEmailDetails(emailId) {
+            try {
+                showLoadingState();
+                
+                const response = await makeApiCall(`${API_URL}/email/email/${emailId}`);
+                const data = await response.json();
+                
+                return data;
+            } catch (error) {
+                console.error('Error loading email details:', error);
+                throw error;
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Mark email as read
+        async function markEmailAsRead(emailId) {
+            try {
+                // TODO: Implement backend endpoint for marking emails as read
+                showNotification('Email marked as read');
+                closeEmailModal();
+                
+                // Refresh data
+                await loadCompaniesWithEmails();
+                await loadDashboardStats();
+                renderCurrentView();
+            } catch (error) {
+                console.error('Error marking email as read:', error);
+                showNotification('Failed to mark email as read', 'error');
+            }
+        }
+        
+        // Connect email provider
+        function connectProvider(provider) {
+            showLoadingState();
+            
+            fetch(`${API_URL}/email/auth/${provider}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.authUrl) {
+                        // Redirect to auth URL
+                        window.location.href = data.authUrl;
+                    } else {
+                        showNotification('Failed to start authentication flow', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error connecting provider:', error);
+                    showNotification('Failed to connect provider', 'error');
+                    hideLoadingState();
+                });
+        }
+        
+        // Start email sync
+        async function startEmailSync(integrationId) {
+            try {
+                showLoadingState();
+                
+                const response = await makeApiCall(`${API_URL}/email/sync/${integrationId}`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Email sync started. This may take a few minutes.');
+                    
+                    // Update UI to show sync in progress
+                    const syncBtn = document.querySelector(`[data-integration-id="${integrationId}"]`);
+                    if (syncBtn) {
+                        syncBtn.innerHTML = `
+                            <div class="loading-spinner" style="width: 0.875rem; height: 0.875rem; margin: 0 0.25rem 0 0;"></div>
+                            Syncing...
+                        `;
+                        syncBtn.disabled = true;
+                    }
+                    
+                    // Check sync status periodically
+                    checkSyncStatus(integrationId);
+                }
+            } catch (error) {
+                console.error('Error starting email sync:', error);
+                showNotification('Failed to start email sync', 'error');
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Check sync status
+        function checkSyncStatus(integrationId) {
+            const checkInterval = setInterval(async () => {
+                try {
+                    const response = await makeApiCall(`${API_URL}/email/sync-status/${integrationId}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'completed' || data.status === 'failed') {
+                        clearInterval(checkInterval);
+                        
+                        // Update UI
+                        const syncBtn = document.querySelector(`[data-integration-id="${integrationId}"]`);
+                        if (syncBtn) {
+                            syncBtn.innerHTML = `
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 2V14M8 2L4 6M8 2L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Sync
+                            `;
+                            syncBtn.disabled = false;
+                        }
+                        
+                        if (data.status === 'completed') {
+                            showNotification(`Email sync completed: ${data.emailsMatched} emails matched`);
+                            
+                            // Refresh data
+                            await loadDashboardData();
+                        } else {
+                            showNotification(`Email sync failed: ${data.error || 'Unknown error'}`, 'error');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error checking sync status:', error);
+                }
+            }, 5000); // Check every 5 seconds
+            
+            // Stop checking after 5 minutes max
+            setTimeout(() => {
+                clearInterval(checkInterval);
+            }, 5 * 60 * 1000);
+        }
+        
+        // Remove integration
+        async function removeIntegration(integrationId) {
+            if (!confirm('Are you sure you want to remove this email integration?')) {
+                return;
+            }
+            
+            try {
+                showLoadingState();
+                
+                const response = await makeApiCall(`${API_URL}/email/integrations/${integrationId}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Email integration removed successfully');
+                    
+                    // Refresh data
+                    await loadDashboardData();
+                }
+            } catch (error) {
+                console.error('Error removing integration:', error);
+                showNotification('Failed to remove integration', 'error');
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Switch view
+        function switchView(view) {
+            currentView = view;
+            
+            // Update toggle buttons
+            document.querySelectorAll('.view-toggle').forEach(toggle => {
+                toggle.classList.toggle('active', toggle.dataset.view === view);
+            });
+            
+            // Show/hide views
+            integrationsView.classList.toggle('hidden', view !== 'integrations');
+            emailsView.classList.toggle('hidden', view !== 'emails');
+            settingsView.classList.toggle('hidden', view !== 'settings');
+            
+            // Show/hide filter controls
+            filterControls.classList.toggle('hidden', view !== 'emails');
+            
+            // Render current view
+            renderCurrentView();
+        }
+        
+        // Render current view
+        function renderCurrentView() {
+            switch (currentView) {
+                case 'integrations':
+                    renderIntegrations();
+                    break;
+                case 'emails':
+                    renderEmails();
+                    break;
+                case 'settings':
+                    renderCategories();
+                    break;
+            }
+        }
+        
+        // Render integrations
+        function renderIntegrations() {
+            const integrationsContainer = document.getElementById('integrations-list');
+            
+            if (integrations.length === 0) {
+                integrationsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.5 14H3.5C2.96957 14 2.46086 13.7893 2.08579 13.4142C1.71071 13.0391 1.5 12.5304 1.5 12V4C1.5 3.46957 1.71071 2.96086 2.08579 2.58579C2.46086 2.21071 2.96957 2 3.5 2H6.5M10.5 11L13.5 8L10.5 5M13.5 8H6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p>No email accounts connected yet. Connect your account to track job responses.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            integrations.forEach(integration => {
+                // Format status
+                const statusClass = 
+                    integration.integration_status === 'active' ? 'active' : 
+                    integration.integration_status === 'expired' ? 'expired' : 
+                    integration.integration_status === 'revoked' ? 'error' : 'error';
+                
+                // Format last sync time
+                const lastSyncText = integration.last_sync_time 
+                    ? formatDate(integration.last_sync_time) 
+                    : 'Never synced';
+                
+                html += `
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-info">
+                                <div class="integration-name">${integration.email_address}</div>
+                                <div class="integration-meta">
+                                    <div class="integration-meta-item">
+                                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M8 4.5V8H10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>${lastSyncText}</span>
+                                    </div>
+                                    <div class="integration-meta-item">
+                                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4 6.5H12M4 9.5H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M3.5 2H12.5C13.3284 2 14 2.67157 14 3.5V12.5C14 13.3284 13.3284 14 12.5 14H3.5C2.67157 14 2 13.3284 2 12.5V3.5C2 2.67157 2.67157 2 3.5 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span class="capitalize">${integration.provider}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="integration-actions">
+                                <button class="btn btn-secondary btn-sm" data-integration-id="${integration.id}" onclick="startEmailSync('${integration.id}')">
+                                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 2V14M8 2L4 6M8 2L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Sync
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="removeIntegration('${integration.id}')">
+                                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2 4H3.33333H14M5.33333 4V2.66667C5.33333 2.31304 5.47381 1.97391 5.72386 1.72386C5.97391 1.47381 6.31304 1.33333 6.66667 1.33333H9.33333C9.68696 1.33333 10.0261 1.47381 10.2761 1.72386C10.5262 1.97391 10.6667 2.31304 10.6667 2.66667V4M12.6667 4V13.3333C12.6667 13.687 12.5262 14.0261 12.2761 14.2761C12.0261 14.5262 11.687 14.6667 11.3333 14.6667H4.66667C4.31304 14.6667 3.97391 14.5262 3.72386 14.2761C3.47381 14.0261 3.33333 13.687 3.33333 13.3333V4H12.6667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M6.66667 7.33333V11.3333M9.33333 7.33333V11.3333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                        <div class="status-badge ${statusClass}">
+                            ${integration.integration_status.charAt(0).toUpperCase() + integration.integration_status.slice(1)}
+                        </div>
+                        ${integration.error_message ? `<div class="integration-error">${integration.error_message}</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            integrationsContainer.innerHTML = html;
+        }
+        
+        // Render emails by company
+        function renderEmails() {
+            const emailsContainer = document.getElementById('emails-list');
+            
+            if (companies.length === 0) {
+                emailsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 4L7 8.5L12 4M2.5 2H11.5C12.3284 2 13 2.67157 13 3.5V10.5C13 11.3284 12.3284 12 11.5 12H2.5C1.67157 12 1 11.3284 1 10.5V3.5C1 2.67157 1.67157 2 2.5 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p>No applied companies found. Apply to jobs to track responses.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let emailsFound = false;
+            let html = '';
+            
+            companies.forEach(company => {
+                const companyData = companyEmails[company.id] || { emails: [], threads: [] };
+                
+                // Only show companies with emails
+                if (companyData.emails && companyData.emails.length > 0) {
+                    emailsFound = true;
+                    
+                    html += `
+                        <div class="company-section" data-company-id="${company.id}">
+                            <div class="company-header" onclick="toggleCompanyEmails('${company.id}')">
+                                <div class="company-name">
+                                    ${company.name}
+                                </div>
+                                <div class="company-email-count">
+                                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2 4L7 8.5L12 4M2.5 2H11.5C12.3284 2 13 2.67157 13 3.5V10.5C13 11.3284 12.3284 12 11.5 12H2.5C1.67157 12 1 11.3284 1 10.5V3.5C1 2.67157 1.67157 2 2.5 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    ${companyData.emails.length} email${companyData.emails.length !== 1 ? 's' : ''}
+                                </div>
+                            </div>
+                            <div class="company-emails" id="company-emails-${company.id}">
+                    `;
+                    
+                    // Sort emails by date (newest first)
+                    const sortedEmails = [...companyData.emails].sort((a, b) => {
+                        return new Date(b.received_date) - new Date(a.received_date);
+                    });
+                    
+                    sortedEmails.forEach(email => {
+                        const isUnread = !email.is_read;
+                        
+                        html += `
+                            <div class="email-row" onclick="showEmailDetail('${email.id}')">
+                                <div class="email-info">
+                                    <div class="email-subject ${isUnread ? 'unread' : ''}">${email.subject}</div>
+                                    <div class="email-metadata">
+                                        <span>From: ${formatSender(email.sender)}</span>
+                                        ${email.has_attachments ? '<span>📎</span>' : ''}
+                                    </div>
+                                </div>
+                                <div class="email-time">
+                                    ${formatDate(email.received_date)}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            if (!emailsFound) {
+                emailsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 4L7 8.5L12 4M2.5 2H11.5C12.3284 2 13 2.67157 13 3.5V10.5C13 11.3284 12.3284 12 11.5 12H2.5C1.67157 12 1 11.3284 1 10.5V3.5C1 2.67157 1.67157 2 2.5 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p>No emails found yet. Connect your email account and sync to find job responses.</p>
+                    </div>
+                `;
+            } else {
+                emailsContainer.innerHTML = html;
+            }
+        }
+        
+        // Toggle company emails
+        function toggleCompanyEmails(companyId) {
+            const emailsContainer = document.getElementById(`company-emails-${companyId}`);
+            if (emailsContainer) {
+                emailsContainer.classList.toggle('hidden');
+            }
+        }
+        
+        // Render categories
+        function renderCategories() {
+            const categoriesContainer = document.getElementById('categories-list');
+            
+            if (!categories || categories.length === 0) {
+                categoriesContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p>No categories found.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `
+                <div class="integrations-list">
+            `;
+            
+            categories.forEach(category => {
+                html += `
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-info">
+                                <div class="integration-name" style="color: ${category.color}">${category.name}</div>
+                                <div class="integration-meta">
+                                    ${category.description || 'No description'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            categoriesContainer.innerHTML = html;
+        }
+        
+        // Render company aliases
+        function renderCompanyAliases(companyId) {
+            const aliasesContainer = document.getElementById('aliases-list');
+            const companyAliases = aliases[companyId] || [];
+            const selectedCompany = companies.find(c => c.id === companyId);
+            
+            if (!selectedCompany) {
+                aliasesContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p>Company not found.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Update modal title
+            document.getElementById('modal-alias-title').textContent = `Aliases for ${selectedCompany.name}`;
+            
+            if (companyAliases.length === 0) {
+                aliasesContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 3.5H13.5V6M9.5 14H3.5C2.96957 14 2.46086 13.7893 2.08579 13.4142C1.71071 13.0391 1.5 12.5304 1.5 12V4C1.5 3.46957 1.71071 2.96086 2.08579 2.58579C2.46086 2.21071 2.96957 2 3.5 2H9.5L13.5 6V12C13.5 12.5304 13.2893 13.0391 12.9142 13.4142C12.5391 13.7893 12.0304 14 11.5 14H11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.5 11L6.5 9L8.5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6.5 9V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p>No aliases defined for ${selectedCompany.name}. Add aliases to help match emails.</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <p class="mb-3">Alternative names that might appear in emails from ${selectedCompany.name}.</p>
+                `;
+                
+                companyAliases.forEach(alias => {
+                    html += `
+                        <div class="alias-item">
+                            <div class="alias-text">${alias.alias}</div>
+                            <button class="btn btn-danger btn-sm btn-icon" onclick="deleteCompanyAlias('${alias.id}')">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 4L12 12M4 12L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    `;
+                });
+                
+                aliasesContainer.innerHTML = html;
+            }
+            
+            // Display the alias form
+            document.getElementById('alias-form').style.display = 'flex';
+        }
+        
+        // Update company alias dropdown
+        function updateCompanyAliasDropdown() {
+            const select = document.getElementById('company-alias-select');
+            
+            // Clear current options except the first one
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            
+            // Add company options
+            companies.forEach(company => {
+                const option = document.createElement('option');
+                option.value = company.id;
+                option.textContent = company.name;
+                select.appendChild(option);
+            });
+        }
+        
+        // Filter companies based on search term
+        function filterCompanies(searchTerm) {
+            const companySections = document.querySelectorAll('.company-section');
+            
+            companySections.forEach(section => {
+                const companyName = section.querySelector('.company-name').textContent.toLowerCase();
+                
+                if (companyName.includes(searchTerm)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        // Show email detail modal
+        async function showEmailDetail(emailId) {
+            try {
+                // Set current email ID
+                currentEmailId = emailId;
+                
+                // Reset modal content
+                document.getElementById('email-subject-line').textContent = 'Loading...';
+                document.getElementById('email-from').textContent = 'Loading...';
+                document.getElementById('email-to').textContent = 'Loading...';
+                document.getElementById('email-date').textContent = 'Loading...';
+                document.getElementById('email-company').textContent = 'Loading...';
+                document.getElementById('email-body').textContent = 'Loading email content...';
+                document.getElementById('email-attachments').innerHTML = 'Loading attachments...';
+                
+                // Show modal
+                document.getElementById('email-modal-overlay').classList.add('active');
+                
+                // Get email details
+                const data = await getEmailDetails(emailId);
+                
+                // Update modal content
+                document.getElementById('email-subject-line').textContent = data.email.subject;
+                document.getElementById('email-from').textContent = data.email.sender;
+                document.getElementById('email-to').textContent = 'You';
+                document.getElementById('email-date').textContent = formatDate(data.email.received_date);
+                document.getElementById('email-company').textContent = data.email.company_name;
+                document.getElementById('email-body').innerHTML = data.email.content;
+                
+                // Update mark as read button
+                const markReadBtn = document.getElementById('mark-read-btn');
+                if (data.email.is_read) {
+                    markReadBtn.style.display = 'none';
+                } else {
+                    markReadBtn.style.display = 'inline-flex';
+                }
+                
+                // Update attachments
+                const attachmentsContainer = document.getElementById('email-attachments-container');
+                if (data.attachments && data.attachments.length > 0) {
+                    attachmentsContainer.style.display = 'block';
+                    
+                    let attachmentsHtml = '';
+                    data.attachments.forEach(attachment => {
+                        attachmentsHtml += `
+                            <a href="/api/email/attachment/${attachment.id}" class="attachment-item" target="_blank">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 2V11M8 11L5 8M8 11L11 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M3 14H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                ${attachment.filename}
+                            </a>
+                        `;
+                    });
+                    
+                    document.getElementById('email-attachments').innerHTML = attachmentsHtml;
+                } else {
+                    attachmentsContainer.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error showing email detail:', error);
+                showNotification('Failed to load email details', 'error');
+                closeEmailModal();
+            }
+        }
+        
+        // Close email modal
+        function closeEmailModal() {
+            document.getElementById('email-modal-overlay').classList.remove('active');
+            currentEmailId = null;
+        }
+        
+        // Show alias modal
+        function showAliasModal(companyId) {
+            currentCompanyId = companyId;
+            
+            // Load aliases
+            loadCompanyAliases(companyId);
+            
+            // Show modal
+            document.getElementById('alias-modal-overlay').classList.add('active');
+        }
+        
+        // Close alias modal
+        function closeAliasModal() {
+            document.getElementById('alias-modal-overlay').classList.remove('active');
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationTitle = notification.querySelector('.notification-title');
+            const notificationMessage = document.getElementById('notification-message');
+            
+            // Update notification content
+            notificationTitle.textContent = type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Info';
+            notificationMessage.textContent = message;
+            
+            // Update notification class
+            notification.className = `notification notification-${type}`;
+            notification.classList.add('show');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            
+            // Less than 1 hour
+            if (diff < 60 * 60 * 1000) {
+                const minutes = Math.floor(diff / (60 * 1000));
+                return minutes < 1 ? 'Just now' : `${minutes}m ago`;
+            }
+            
+            // Less than 24 hours
+            if (diff < 24 * 60 * 60 * 1000) {
+                const hours = Math.floor(diff / (60 * 60 * 1000));
+                return `${hours}h ago`;
+            }
+            
+            // Less than 7 days
+            if (diff < 7 * 24 * 60 * 60 * 1000) {
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                return days[date.getDay()];
+            }
+            
+            // Format as date
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+        
+        // Format sender
+        function formatSender(sender) {
+            if (!sender) return 'Unknown';
+            
+            // Try to extract name and email from format "Name <email@example.com>"
+            const match = sender.match(/(.+?)\s*<(.+?)>/);
+            
+            if (match) {
+                return match[1].trim();
+            }
+            
+            return sender;
+        }
+        
+        // Make functions globally accessible
+        window.startEmailSync = startEmailSync;
+        window.removeIntegration = removeIntegration;
+        window.showEmailDetail = showEmailDetail;
+        window.closeEmailModal = closeEmailModal;
+        window.showAliasModal = showAliasModal;
+        window.closeAliasModal = closeAliasModal;
+        window.toggleCompanyEmails = toggleCompanyEmails;
+        window.addCompanyAlias = addCompanyAlias;
+        window.deleteCompanyAlias = deleteCompanyAlias;
+        window.connectProvider = connectProvider;
+    </script>
+</body>
+</html>
