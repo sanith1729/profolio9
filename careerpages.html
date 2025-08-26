@@ -1,0 +1,2405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Pages Tracker | buildfree.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Elegant, minimal design system */
+        :root {
+          /* Elegant, minimal color palette */
+          --color-primary: #2d3142;
+          --color-primary-light: #4f5d75;
+          --color-secondary: #ef8354;
+          --color-secondary-light: #f4a261;
+          --color-accent: #bfc0c0;
+          
+          /* Background colors */
+          --color-body: #ffffff;
+          --color-bg-light: #f8f9fa;
+          --color-bg-dark: #2d3142;
+          
+          /* Text colors */
+          --color-white: #ffffff;
+          --color-text: #2d3142;
+          --color-text-light: #4f5d75;
+          --color-text-muted: #bfc0c0;
+          
+          /* Border colors */
+          --color-border: #e9ecef;
+          --color-border-light: #f8f9fa;
+          
+          /* Status colors */
+          --color-secondary-bg: #fef1eb;
+          --color-secondary-border: #fad1c0;
+          
+          /* Other variables */
+          --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          --spacing-xs: 0.25rem;
+          --spacing-sm: 0.5rem;
+          --spacing-md: 1rem;
+          --spacing-lg: 1.5rem;
+          --spacing-xl: 2rem;
+          --spacing-2xl: 3rem;
+          --spacing-3xl: 4rem;
+          --radius-sm: 0.25rem;
+          --radius-md: 0.375rem;
+          --radius-lg: 0.5rem;
+          --radius-xl: 0.75rem;
+          --transition-base: all 0.2s ease;
+        }
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: var(--font-primary);
+          color: var(--color-text);
+          background-color: var(--color-body);
+          line-height: 1.5;
+          font-size: 0.8125rem;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          background: rgba(255, 255, 255, 0.98);
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .header-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 3.5rem;
+        }
+
+        .logo {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          text-decoration: none;
+          letter-spacing: -0.025em;
+        }
+
+        .nav {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+        }
+
+        .nav-link {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+          text-decoration: none;
+          font-weight: 500;
+          transition: var(--transition-base);
+          padding: 0.375rem 0.625rem;
+          border-radius: var(--radius-md);
+        }
+
+        .nav-link:hover {
+          color: var(--color-text);
+          background-color: var(--color-bg-light);
+        }
+
+        .nav-link.active {
+          color: var(--color-secondary);
+          font-weight: 600;
+        }
+
+        /* User menu */
+        .user-menu {
+          position: relative;
+        }
+
+        .user-menu-button {
+          display: flex;
+          align-items: center;
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: var(--color-text);
+          font-size: 0.8125rem;
+          font-weight: 500;
+          padding: 0.25rem 0.5rem;
+          border-radius: var(--radius-md);
+          transition: var(--transition-base);
+        }
+
+        .user-menu-button:hover {
+          background-color: var(--color-bg-light);
+        }
+
+        .user-avatar {
+          width: 1.75rem;
+          height: 1.75rem;
+          border-radius: 9999px;
+          background-color: var(--color-primary);
+          color: var(--color-white);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 0.5rem;
+          font-weight: 600;
+          font-size: 0.75rem;
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          margin-top: 0.25rem;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-lg);
+          min-width: 180px;
+          overflow: hidden;
+          z-index: 10;
+          display: none;
+        }
+
+        .dropdown-menu.active {
+          display: block;
+        }
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          padding: 0.625rem 0.875rem;
+          color: var(--color-text);
+          text-decoration: none;
+          font-size: 0.8125rem;
+          transition: var(--transition-base);
+          background: none;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          text-align: left;
+        }
+
+        .dropdown-item:hover {
+          background-color: var(--color-bg-light);
+        }
+
+        .dropdown-item svg {
+          margin-right: 0.5rem;
+          color: var(--color-text-light);
+          width: 0.875rem;
+          height: 0.875rem;
+        }
+
+        .dropdown-divider {
+          height: 1px;
+          background-color: var(--color-border);
+          margin: 0.25rem 0;
+        }
+
+        /* Page header */
+        .page-header {
+          background: var(--color-white);
+          border-bottom: 1px solid var(--color-border);
+          padding: 2rem 0 1.5rem;
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1.5rem;
+        }
+
+        .page-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--color-primary);
+          margin-bottom: 0.375rem;
+          letter-spacing: -0.025em;
+        }
+
+        .page-description {
+          color: var(--color-text-light);
+          font-size: 0.875rem;
+          max-width: 600px;
+        }
+
+        /* Main content */
+        .main-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 1.5rem 0;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 1.25rem;
+          margin-bottom: 2rem;
+        }
+
+        .stat-card {
+          background: var(--color-white);
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--color-border);
+          padding: 1.25rem;
+          box-shadow: var(--shadow-sm);
+          transition: var(--transition-base);
+        }
+
+        .stat-card:hover {
+          box-shadow: var(--shadow-md);
+          transform: translateY(-2px);
+        }
+
+        .stat-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.875rem;
+        }
+
+        .stat-title {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: var(--color-text-light);
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+        }
+
+        .stat-icon {
+          color: var(--color-secondary);
+        }
+
+        .stat-value {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--color-primary);
+          margin-bottom: 0.25rem;
+          letter-spacing: -0.025em;
+        }
+
+        .stat-change {
+          font-size: 0.75rem;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          color: var(--color-text-muted);
+        }
+
+        .stat-change.positive {
+          color: var(--color-secondary);
+        }
+
+        .stat-change.negative {
+          color: var(--color-primary);
+        }
+
+        /* View controls */
+        .view-controls {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.25rem;
+        }
+
+        .view-toggles {
+          display: flex;
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          box-shadow: var(--shadow-sm);
+        }
+
+        .view-toggle {
+          padding: 0.5rem 1rem;
+          font-size: 0.75rem;
+          border: none;
+          background: transparent;
+          color: var(--color-text-light);
+          cursor: pointer;
+          transition: var(--transition-base);
+          border-right: 1px solid var(--color-border);
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+          font-weight: 500;
+        }
+
+        .view-toggle:last-child {
+          border-right: none;
+        }
+
+        .view-toggle.active {
+          background: var(--color-secondary);
+          color: var(--color-white);
+        }
+
+        .view-toggle:not(.active):hover {
+          background: var(--color-secondary-bg);
+          color: var(--color-secondary);
+        }
+
+        /* Filter controls */
+        .filter-controls {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .filter-select {
+          height: 2rem;
+          padding: 0 0.875rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          color: var(--color-text);
+          transition: var(--transition-base);
+          background-color: var(--color-white);
+        }
+
+        .filter-select:focus {
+          outline: none;
+          border-color: var(--color-secondary);
+          box-shadow: 0 0 0 3px rgba(239, 131, 84, 0.15);
+        }
+
+        /* Companies list */
+        .list-container {
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          box-shadow: var(--shadow-md);
+          margin-bottom: 2rem;
+        }
+
+        .list-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem 1.25rem;
+          background: var(--color-bg-light);
+          border-bottom: 1px solid var(--color-border);
+        }
+
+        .list-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+        }
+
+        .list-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .search-input {
+          height: 2rem;
+          width: 240px;
+          padding: 0 0.875rem;
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          color: var(--color-text);
+          transition: var(--transition-base);
+          background-color: var(--color-white);
+        }
+
+        .search-input:focus {
+          outline: none;
+          border-color: var(--color-secondary);
+          box-shadow: 0 0 0 3px rgba(239, 131, 84, 0.15);
+        }
+
+        .companies-list {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .company-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 1.25rem;
+          background-color: var(--color-white);
+          border-bottom: 1px solid var(--color-border);
+          transition: var(--transition-base);
+          cursor: pointer;
+        }
+
+        .company-row:last-child {
+          border-bottom: none;
+        }
+
+        .company-row:hover {
+          background-color: var(--color-bg-light);
+        }
+
+        .company-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .company-name-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .company-name {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          margin: 0;
+        }
+
+        .company-info-icon {
+          width: 1rem;
+          height: 1rem;
+          border-radius: 9999px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.6875rem;
+          font-weight: 700;
+          cursor: pointer;
+          color: var(--color-white);
+          background: var(--color-secondary);
+          transition: var(--transition-base);
+        }
+
+        .company-info-icon:hover {
+          transform: scale(1.1);
+          box-shadow: var(--shadow-sm);
+        }
+
+        .company-metadata {
+          display: flex;
+          align-items: center;
+          gap: 0.375rem;
+          font-size: 0.75rem;
+          color: var(--color-text-light);
+        }
+
+        .metadata-divider {
+          color: var(--color-text-muted);
+        }
+
+        .company-actions {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        /* Status selector - new segmented control style */
+        .status-selector {
+          display: inline-flex;
+          background: var(--color-bg-light);
+          border-radius: 9999px;
+          padding: 0.25rem;
+          border: 1px solid var(--color-border);
+          box-shadow: var(--shadow-sm);
+        }
+        
+        .status-option {
+          font-size: 0.6875rem;
+          padding: 0.375rem 0.75rem;
+          border-radius: 9999px;
+          border: none;
+          background: transparent;
+          color: var(--color-text-light);
+          font-weight: 600;
+          cursor: pointer;
+          transition: var(--transition-base);
+          white-space: nowrap;
+        }
+        
+        .status-option:hover:not(.active) {
+          color: var(--color-secondary);
+        }
+        
+        .status-option.active {
+          background: var(--color-secondary);
+          color: var(--color-white);
+          box-shadow: var(--shadow-sm);
+        }
+
+        /* Save button */
+        .save-button {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          padding: 0.375rem 0.75rem;
+          background: var(--color-bg-light);
+          color: var(--color-text-light);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: var(--transition-base);
+        }
+
+        .save-button:hover {
+          background: var(--color-secondary-bg);
+          color: var(--color-secondary);
+          transform: translateY(-1px);
+        }
+
+        .save-button.active {
+          background: var(--color-secondary);
+          color: var(--color-white);
+          border-color: var(--color-secondary);
+        }
+
+        .save-button svg {
+          width: 0.875rem;
+          height: 0.875rem;
+        }
+
+        /* Visit button */
+        .visit-button {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          padding: 0.375rem 0.75rem;
+          background: var(--color-secondary-bg);
+          color: var(--color-secondary);
+          border: 1px solid var(--color-secondary-border);
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: var(--transition-base);
+        }
+
+        .visit-button:hover {
+          background: var(--color-secondary);
+          color: var(--color-white);
+          border-color: var(--color-secondary);
+          transform: translateY(-1px);
+        }
+
+        .visit-button svg {
+          width: 0.875rem;
+          height: 0.875rem;
+        }
+
+        /* Analytics charts */
+        .analytics-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 1.25rem;
+          margin-bottom: 1.25rem;
+        }
+
+        .chart-container {
+          background: var(--color-white);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          padding: 1.25rem;
+          box-shadow: var(--shadow-md);
+        }
+
+        .chart-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1.25rem;
+        }
+
+        .chart-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-primary);
+        }
+
+        .chart-placeholder {
+          height: 180px;
+          background: var(--color-white);
+          border-radius: var(--radius-md);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--color-text-light);
+          font-size: 0.75rem;
+          position: relative;
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(45, 49, 66, 0.75);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s ease;
+          backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .company-info-modal {
+          background: var(--color-white);
+          border-radius: var(--radius-xl);
+          width: 90%;
+          max-width: 560px;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: var(--shadow-xl);
+          transform: translateY(20px);
+          transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .company-info-modal {
+          transform: translateY(0);
+        }
+
+        .modal-header {
+          padding: 1.25rem;
+          border-bottom: 1px solid var(--color-border);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .modal-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--color-primary);
+        }
+
+        .modal-close {
+          width: 1.75rem;
+          height: 1.75rem;
+          border-radius: 9999px;
+          background: transparent;
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: var(--color-text-light);
+          transition: var(--transition-base);
+        }
+
+        .modal-close:hover {
+          background: var(--color-bg-light);
+          color: var(--color-primary);
+        }
+
+        .modal-content {
+          padding: 1.25rem;
+        }
+
+        .modal-section {
+          margin-bottom: 1.25rem;
+        }
+
+        .modal-section-title {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: var(--color-primary);
+          margin-bottom: 0.375rem;
+        }
+
+        .modal-section-content {
+          font-size: 0.8125rem;
+          color: var(--color-text-light);
+          line-height: 1.5;
+        }
+
+        .modal-footer {
+          padding: 1.25rem;
+          border-top: 1px solid var(--color-border);
+          display: flex;
+          justify-content: flex-end;
+          gap: 0.75rem;
+        }
+
+        /* Status lightbox */
+        #status-lightbox .modal-content {
+          text-align: center;
+          padding: 1.5rem;
+        }
+
+        #status-lightbox .status-selector {
+          margin: 1.5rem auto 0;
+          display: flex;
+          justify-content: center;
+        }
+
+        #status-lightbox .status-question {
+          font-size: 0.875rem;
+          color: var(--color-text);
+          margin-top: 1rem;
+        }
+
+        /* Common button styles */
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: var(--radius-md);
+          font-size: 0.75rem;
+          font-weight: 500;
+          padding: 0.5rem 1rem;
+          transition: var(--transition-base);
+          cursor: pointer;
+          border: none;
+        }
+
+        .btn-primary {
+          background-color: var(--color-secondary);
+          color: var(--color-white);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+          background-color: var(--color-secondary-light);
+          transform: translateY(-1px);
+          box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary {
+          background-color: var(--color-white);
+          color: var(--color-text);
+          border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+          background-color: var(--color-bg-light);
+          color: var(--color-primary);
+          transform: translateY(-1px);
+        }
+
+        /* Empty and loading states */
+        .empty-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2.5rem;
+          color: var(--color-text-light);
+          text-align: center;
+        }
+
+        .empty-state svg {
+          color: var(--color-text-muted);
+          margin-bottom: 0.75rem;
+        }
+
+        .loading-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2.5rem;
+          color: var(--color-text-light);
+        }
+
+        .loading-spinner {
+          display: inline-block;
+          width: 1.75rem;
+          height: 1.75rem;
+          border: 2px solid var(--color-border);
+          border-radius: 50%;
+          border-top-color: var(--color-secondary);
+          animation: spin 1s linear infinite;
+          margin-bottom: 0.75rem;
+        }
+
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+
+        /* Notification toast */
+        .notification {
+          position: fixed;
+          bottom: 1.25rem;
+          right: 1.25rem;
+          width: 280px;
+          background: var(--color-white);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-xl);
+          display: flex;
+          border-left: 4px solid var(--color-secondary);
+          transform: translateY(100px);
+          opacity: 0;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+          z-index: 1000;
+        }
+
+        .notification.show {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .notification-content {
+          flex-grow: 1;
+          padding: 0.75rem;
+        }
+
+        .notification-title {
+          font-size: 0.75rem;
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+          color: var(--color-primary);
+        }
+
+        .notification-message {
+          font-size: 0.75rem;
+          color: var(--color-text-light);
+        }
+
+        .notification-success {
+          border-left-color: var(--color-secondary);
+        }
+
+        .notification-error {
+          border-left-color: var(--color-primary);
+        }
+
+        /* Utility classes */
+        .hidden {
+          display: none !important;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+          .nav {
+            display: none;
+          }
+          
+          .analytics-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .stats-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .search-input {
+            width: 160px;
+          }
+          
+          .company-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+          }
+          
+          .company-actions {
+            width: 100%;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+          }
+          
+          .status-selector {
+            width: 100%;
+          }
+          
+          .status-option {
+            flex: 1;
+            text-align: center;
+          }
+          
+          .visit-button, .save-button {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .container {
+            padding: 0 0.75rem;
+          }
+          
+          .list-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+          }
+          
+          .notification {
+            left: 1.25rem;
+            width: auto;
+          }
+          
+          .filter-controls {
+            flex-direction: column;
+            width: 100%;
+          }
+          
+          .filter-select {
+            width: 100%;
+          }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">buildfree.io</a>
+            
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="resume-changer.html" class="nav-link">Resume Changer</a>
+                <a href="career-pages.html" class="nav-link active">Career Pages</a>
+                <a href="index.html#templates" class="nav-link">Templates</a>
+                <a href="index.html#help" class="nav-link">Help</a>
+            </nav>
+            
+            <!-- Auth navigation (will be toggled based on auth state) -->
+            <div class="nav-actions" id="auth-nav" style="display: none;">
+                <button class="btn btn-secondary" id="login-btn">Sign in</button>
+                <button class="btn btn-primary" id="signup-btn">Get started</button>
+            </div>
+            
+            <!-- User menu (when logged in) -->
+            <div class="user-menu" id="user-menu" style="display: none;">
+                <button class="user-menu-button" id="user-menu-btn">
+                    <div class="user-avatar" id="user-avatar">J</div>
+                    <span id="user-name">John Doe</span>
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="dropdown-menu" id="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2.5 14C2.5 11.5147 4.51472 9.5 7 9.5H9C11.4853 9.5 13.5 11.5147 13.5 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Profile
+                    </a>
+                    <a href="resume-changer.html" class="dropdown-item">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.16683 1.16666H3.50016C3.19074 1.16666 2.89379 1.28957 2.6813 1.50837C2.46881 1.72716 2.3335 2.03188 2.3335 2.34999V11.65C2.3335 11.9681 2.46881 12.2728 2.6813 12.4916C2.89379 12.7104 3.19074 12.8333 3.50016 12.8333H10.5002C10.8096 12.8333 11.1066 12.7104 11.319 12.4916C11.5315 12.2728 11.6668 11.9681 11.6668 11.65V4.66666L8.16683 1.16666Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8.1665 1.16666V4.66666H11.6665" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Resume Changer
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item" id="logout-btn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V3.33333C2 2.97971 2.14048 2.64057 2.39052 2.39052C2.64057 2.14048 2.97971 2 3.33333 2H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.6667 11.3333L14 8L10.6667 4.66667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Sign out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">Career Pages Tracker</h1>
+            <p class="page-description">
+                Track your job applications and monitor your career search progress with detailed analytics.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <div class="main-content">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Applications</div>
+                        <div class="stat-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 10L8 14L2 10M14 6L8 10L2 6M14 2L8 6L2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="total-applications">-</div>
+                    <div class="stat-change positive" id="applications-change">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9V3M3 6L6 3L9 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">This Week</div>
+                        <div class="stat-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2V6H10M14 2L10 6M14 2C14 2 11.5 4.5 8 4.5S2 2 2 2V14C2 14 4.5 11.5 8 11.5S14 14 14 14V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="weekly-activity">-</div>
+                    <div class="stat-change positive" id="weekly-change">
+                        <span>Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Saved Companies</div>
+                        <div class="stat-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 13.5L8 9.5L4 13.5V3.5C4 3.10218 4.15804 2.72064 4.43934 2.43934C4.72064 2.15804 5.10218 2 5.5 2H10.5C10.8978 2 11.2794 2.15804 11.5607 2.43934C11.842 2.72064 12 3.10218 12 3.5V13.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="saved-companies">-</div>
+                    <div class="stat-change" id="saved-change">
+                        <span>Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Controls -->
+            <div class="view-controls">
+                <div class="view-toggles">
+                    <button class="view-toggle active" data-view="table">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 2H14V14H2V2ZM2 6H14M6 2V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Table
+                    </button>
+                    <button class="view-toggle" data-view="analytics">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 13L6 10L9 13L13 9M13 9H10M13 9V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Analytics
+                    </button>
+                </div>
+                
+                <div class="filter-controls">
+                    <select id="status-filter" class="filter-select">
+                        <option value="fresh" selected>Fresh Pages</option>
+                        <option value="all">All Pages</option>
+                        <option value="visited">Visited Pages</option>
+                        <option value="saved">Saved Pages</option>
+                        <option value="applied">Applied</option>
+                        <option value="not_interested">Not Interested</option>
+                        <option value="no_jobs_available">No Jobs Available</option>
+                    </select>
+                    
+                    <select id="industry-filter" class="filter-select">
+                        <option value="">All Industries</option>
+                    </select>
+                    
+                    <select id="location-filter" class="filter-select">
+                        <option value="">All Locations</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Table View (now a List View) -->
+            <div id="table-view" class="view-content">
+                <div class="list-container">
+                    <div class="list-header">
+                        <div class="list-title">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 2H14V14H2V2ZM2 6H14M6 2V14" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            <span id="companies-title">All Companies</span>
+                        </div>
+                        <div class="list-actions">
+                            <input type="text" class="search-input" placeholder="Search companies..." id="table-search">
+                        </div>
+                    </div>
+                    <div id="companies-list-body" class="companies-list">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading companies...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics View -->
+            <div id="analytics-view" class="view-content hidden">
+                <div class="analytics-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-title">Application Funnel</div>
+                        </div>
+                        <div class="chart-placeholder" id="funnel-chart">
+                            <div class="loading-spinner"></div>
+                            <p>Loading application funnel...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-title">Industry Breakdown</div>
+                        </div>
+                        <div class="chart-placeholder" id="industry-chart">
+                            <div class="loading-spinner"></div>
+                            <p>Loading industry data...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Application Timeline</div>
+                    </div>
+                    <div class="chart-placeholder" id="timeline-chart">
+                        <div class="loading-spinner"></div>
+                        <p>Loading timeline chart...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Notification -->
+    <div class="notification notification-success" id="notification">
+        <div class="notification-content">
+            <div class="notification-title">Success</div>
+            <div class="notification-message" id="notification-message">Status updated successfully</div>
+        </div>
+    </div>
+    
+    <!-- Company Modal -->
+    <div class="modal-overlay" id="company-modal-overlay">
+        <div class="company-info-modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-company-name">Company Name</div>
+                <button class="modal-close" onclick="closeModal()">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4L12 12M4 12L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <div class="modal-section-title">Industry</div>
+                    <div class="modal-section-content" id="modal-industry-text">Technology</div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">Description</div>
+                    <div class="modal-section-content" id="modal-company-description">
+                        Company description will appear here.
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">Notes</div>
+                    <textarea id="company-notes" class="search-input" style="width: 100%; height: 80px; padding: 0.5rem; resize: vertical;"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="save-notes-btn">
+                    Save Notes
+                </button>
+                <button class="btn btn-primary" id="modal-visit-btn">
+                    Visit Career Page
+                </button>
+                <button class="btn btn-secondary" onclick="closeModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Status Lightbox -->
+    <div class="modal-overlay" id="status-lightbox">
+        <div class="company-info-modal">
+            <div class="modal-header">
+                <div class="modal-title" id="status-company-name">Application Status</div>
+                <button class="modal-close" onclick="closeStatusLightbox()">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4L12 12M4 12L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <p id="status-message">We noticed you visited this company's career page. Did you apply?</p>
+                
+                <div class="status-selector">
+                    <button class="status-option" onclick="updateStatusAndClose('applied')">
+                        Yes, I Applied
+                    </button>
+                    <button class="status-option" onclick="updateStatusAndClose('not_interested')">
+                        Not Interested
+                    </button>
+                    <button class="status-option" onclick="updateStatusAndClose('no_jobs_available')">
+                        No Jobs Available
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_URL = '/api';
+        
+        // State
+        let currentUser = null;
+        let companies = [];
+        let applications = [];
+        let analytics = {};
+        let currentView = 'table';
+        let isLoading = false;
+        let currentModalCompany = null;
+        let currentLightboxCompany = null;
+        let industries = [];
+        let locations = [];
+        let filters = {
+            status: 'fresh',
+            industry: '',
+            location: '',
+            search: ''
+        };
+        
+        // Store chart instances so we can destroy them before recreating
+        let charts = {
+            funnel: null,
+            industry: null,
+            timeline: null
+        };
+        
+        // Flag to track if we need to check for pending applications
+        let pendingCheckNeeded = true;
+        
+        // DOM Elements
+        const userMenu = document.getElementById('user-menu');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        const authNav = document.getElementById('auth-nav');
+        const companiesList = document.getElementById('companies-list-body');
+        const statusFilter = document.getElementById('status-filter');
+        const industryFilter = document.getElementById('industry-filter');
+        const locationFilter = document.getElementById('location-filter');
+        const tableSearch = document.getElementById('table-search');
+        const companiesTitle = document.getElementById('companies-title');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            checkAuth();
+        });
+        
+        // Enhanced API call with better error handling
+        async function makeApiCall(url, options = {}) {
+            const token = localStorage.getItem('token');
+            
+            const defaultHeaders = {
+                'Authorization': `Bearer ${token}`
+            };
+            
+            // Don't set Content-Type for FormData
+            if (!(options.body instanceof FormData)) {
+                defaultHeaders['Content-Type'] = 'application/json';
+            }
+            
+            const config = {
+                ...options,
+                headers: {
+                    ...defaultHeaders,
+                    ...(options.headers || {})
+                }
+            };
+            
+            try {
+                const response = await fetch(url, config);
+                
+                if (response.status === 401) {
+                    // Token expired or invalid
+                    localStorage.removeItem('token');
+                    showNotification('Please log in again', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html?mode=login';
+                    }, 1500);
+                    throw new Error('Authentication expired');
+                }
+                
+                if (!response.ok) {
+                    let errorData;
+                    try {
+                        errorData = await response.json();
+                    } catch {
+                        errorData = { error: `HTTP ${response.status}` };
+                    }
+                    throw new Error(errorData.error || `Request failed with status ${response.status}`);
+                }
+                
+                return response;
+            } catch (error) {
+                console.error('API call failed:', error);
+                throw error;
+            }
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // User menu dropdown
+            document.getElementById('user-menu-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (dropdownMenu.classList.contains('active') && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('active');
+                }
+            });
+            
+            // Auth navigation
+            document.getElementById('login-btn')?.addEventListener('click', () => {
+                window.location.href = 'dashboard.html?mode=login';
+            });
+            
+            document.getElementById('signup-btn')?.addEventListener('click', () => {
+                window.location.href = 'dashboard.html?mode=signup';
+            });
+            
+            // Logout
+            document.getElementById('logout-btn')?.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+            });
+            
+            // View toggles
+            document.querySelectorAll('.view-toggle').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const view = toggle.dataset.view;
+                    switchView(view);
+                });
+            });
+            
+            // Filter change events
+            statusFilter.addEventListener('change', () => {
+                filters.status = statusFilter.value;
+                loadCompanies();
+                updateCompaniesTitle();
+            });
+            
+            industryFilter.addEventListener('change', () => {
+                filters.industry = industryFilter.value;
+                loadCompanies();
+            });
+            
+            locationFilter.addEventListener('change', () => {
+                filters.location = locationFilter.value;
+                loadCompanies();
+            });
+            
+            // Table search
+            tableSearch.addEventListener('input', () => {
+                filters.search = tableSearch.value;
+                loadCompanies();
+            });
+            
+            // Modal event listeners
+            const modalOverlay = document.getElementById('company-modal-overlay');
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // Status lightbox event listeners
+            const statusLightbox = document.getElementById('status-lightbox');
+            statusLightbox.addEventListener('click', (e) => {
+                if (e.target === statusLightbox) {
+                    closeStatusLightbox();
+                }
+            });
+            
+            // Save notes button
+            document.getElementById('save-notes-btn').addEventListener('click', saveCompanyNotes);
+            
+            // Modal visit button
+            document.getElementById('modal-visit-btn').addEventListener('click', () => {
+                if (currentModalCompany) {
+                    visitCareerPage(currentModalCompany.career_page_url, currentModalCompany.id);
+                    closeModal();
+                }
+            });
+            
+            // Close modal when pressing ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (modalOverlay.classList.contains('active')) {
+                        closeModal();
+                    }
+                    if (statusLightbox.classList.contains('active')) {
+                        closeStatusLightbox();
+                    }
+                }
+            });
+            
+            // Add visibility change listener to detect when user returns to the page
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible' && pendingCheckNeeded) {
+                    console.log('Page is now visible, checking for pending applications');
+                    pendingCheckNeeded = false; // Reset to avoid multiple checks
+                    checkPendingApplicationStatus();
+                    
+                    // Set a small timeout to reset the flag for future checks
+                    setTimeout(() => {
+                        pendingCheckNeeded = true;
+                    }, 5000); // Wait 5 seconds before allowing another check
+                }
+            });
+            
+            // Also add focus event as a fallback
+            window.addEventListener('focus', function() {
+                if (pendingCheckNeeded) {
+                    console.log('Window gained focus, checking for pending applications');
+                    pendingCheckNeeded = false; // Reset to avoid multiple checks
+                    checkPendingApplicationStatus();
+                    
+                    // Set a small timeout to reset the flag for future checks
+                    setTimeout(() => {
+                        pendingCheckNeeded = true;
+                    }, 5000); // Wait 5 seconds before allowing another check
+                }
+            });
+            
+            // When the window is blurred, mark that we need to check on return
+            window.addEventListener('blur', function() {
+                // Only set to check if we're actually leaving the page
+                // Check if the active element is an anchor or button with external link
+                const activeElement = document.activeElement;
+                if (activeElement && 
+                    (activeElement.tagName === 'A' || 
+                     (activeElement.tagName === 'BUTTON' && activeElement.classList.contains('visit-button')))) {
+                    console.log('Window lost focus while clicking a link, will check on return');
+                    pendingCheckNeeded = true;
+                }
+            });
+        }
+        
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            
+            if (token) {
+                fetch(`${API_URL}/auth/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.user) {
+                        currentUser = data.user;
+                        showAuthenticatedUI();
+                        loadDashboardData();
+                        checkPendingApplicationStatus();
+                    } else {
+                        throw new Error('Invalid token');
+                    }
+                })
+                .catch(() => {
+                    localStorage.removeItem('token');
+                    showUnauthenticatedUI();
+                });
+            } else {
+                showUnauthenticatedUI();
+            }
+        }
+        
+        // Show authenticated UI
+        function showAuthenticatedUI() {
+            if (authNav) authNav.style.display = 'none';
+            if (userMenu) userMenu.style.display = 'block';
+            
+            if (currentUser) {
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+        }
+        
+        // Show unauthenticated UI
+        function showUnauthenticatedUI() {
+            if (authNav) authNav.style.display = 'flex';
+            if (userMenu) userMenu.style.display = 'none';
+            
+            // Redirect to login if not authenticated
+            window.location.href = 'dashboard.html?mode=login';
+        }
+        
+        // Show loading state
+        function showLoadingState() {
+            if (isLoading) return;
+            isLoading = true;
+            document.body.classList.add('loading');
+            
+            // Show loading state in companies list
+            companiesList.innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading companies...</p>
+                </div>
+            `;
+            
+            // Disable buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.disabled = true;
+            });
+        }
+        
+        // Hide loading state
+        function hideLoadingState() {
+            isLoading = false;
+            document.body.classList.remove('loading');
+            
+            // Re-enable buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.disabled = false;
+            });
+        }
+        
+        // Load all dashboard data
+        async function loadDashboardData() {
+            try {
+                showLoadingState();
+                
+                // Load companies
+                await loadCompanies();
+                
+                // Load applications
+                await loadApplications();
+                
+                // Load analytics
+                await loadAnalytics();
+                
+                // Update stats
+                updateStats();
+                
+                // Render initial view
+                renderCurrentView();
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showNotification('Failed to load data. Please refresh the page.', 'error');
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Load companies
+        async function loadCompanies() {
+            showLoadingState();
+            
+            try {
+                // Build query parameters
+                const queryParams = new URLSearchParams();
+                
+                if (filters.status && filters.status !== 'all') {
+                    queryParams.append('status', filters.status);
+                }
+                
+                if (filters.industry) {
+                    queryParams.append('industry', filters.industry);
+                }
+                
+                if (filters.location) {
+                    queryParams.append('location', filters.location);
+                }
+                
+                if (filters.search) {
+                    queryParams.append('search', filters.search);
+                }
+                
+                queryParams.append('page', '1');
+                queryParams.append('limit', '50');
+                
+                const response = await makeApiCall(`${API_URL}/career/companies?${queryParams.toString()}`);
+                const data = await response.json();
+                
+                companies = data.companies || [];
+                
+                // Update filter options
+                if (data.industries && data.industries.length > 0) {
+                    industries = data.industries;
+                    updateIndustryFilter();
+                }
+                
+                if (data.locations && data.locations.length > 0) {
+                    locations = data.locations;
+                    updateLocationFilter();
+                }
+                
+                renderTableView();
+            } catch (error) {
+                console.error('Error loading companies:', error);
+                companiesList.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p>Error loading companies. Please try again.</p>
+                    </div>
+                `;
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Update industry filter options
+        function updateIndustryFilter() {
+            const currentValue = industryFilter.value;
+            
+            // Clear current options except the first one
+            while (industryFilter.options.length > 1) {
+                industryFilter.remove(1);
+            }
+            
+            // Add industry options
+            industries.forEach(industry => {
+                const option = document.createElement('option');
+                option.value = industry;
+                option.textContent = industry;
+                industryFilter.appendChild(option);
+            });
+            
+            // Restore selected value if possible
+            if (currentValue && industries.includes(currentValue)) {
+                industryFilter.value = currentValue;
+            }
+        }
+        
+        // Update location filter options
+        function updateLocationFilter() {
+            const currentValue = locationFilter.value;
+            
+            // Clear current options except the first one
+            while (locationFilter.options.length > 1) {
+                locationFilter.remove(1);
+            }
+            
+            // Add location options
+            locations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location;
+                option.textContent = location;
+                locationFilter.appendChild(option);
+            });
+            
+            // Restore selected value if possible
+            if (currentValue && locations.includes(currentValue)) {
+                locationFilter.value = currentValue;
+            }
+        }
+        
+        // Load applications
+        async function loadApplications() {
+            try {
+                const response = await makeApiCall(`${API_URL}/career/applications`);
+                const data = await response.json();
+                applications = data.applications || [];
+            } catch (error) {
+                console.error('Error loading applications:', error);
+            }
+        }
+        
+        // Load analytics
+        async function loadAnalytics() {
+            try {
+                const response = await makeApiCall(`${API_URL}/career/analytics`);
+                const data = await response.json();
+                analytics = data.analytics || {};
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+                // Fallback to calculated analytics if endpoint fails
+                analytics = {
+                    totalApplications: applications.filter(app => app.status === 'applied').length,
+                    weeklyActivity: 0,
+                    statusBreakdown: [],
+                    industryBreakdown: [],
+                    timelineData: []
+                };
+            }
+        }
+        
+        // Load saved companies
+        async function loadSavedCompanies() {
+            try {
+                const response = await makeApiCall(`${API_URL}/career/saved`);
+                const data = await response.json();
+                return data.savedCompanies || [];
+            } catch (error) {
+                console.error('Error loading saved companies:', error);
+                return [];
+            }
+        }
+        
+        // Update stats cards
+        function updateStats() {
+            const totalApplications = analytics.totalApplications || applications.filter(app => app.status === 'applied').length || 0;
+            
+            document.getElementById('total-applications').textContent = totalApplications;
+            document.getElementById('weekly-activity').textContent = analytics.weeklyActivity || 0;
+            
+            // Count saved companies
+            const savedCount = applications.filter(app => app.is_saved).length;
+            document.getElementById('saved-companies').textContent = savedCount;
+            
+            // Update change indicators
+            document.getElementById('applications-change').innerHTML = `
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9V3M3 6L6 3L9 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Active search</span>
+            `;
+            document.getElementById('weekly-change').innerHTML = `
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9V3M3 6L6 3L9 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Recent activity</span>
+            `;
+            document.getElementById('saved-change').innerHTML = `
+                <span>Bookmarked companies</span>
+            `;
+        }
+        
+        // Switch view
+        function switchView(view) {
+            currentView = view;
+            
+            // Update toggle buttons
+            document.querySelectorAll('.view-toggle').forEach(toggle => {
+                toggle.classList.toggle('active', toggle.dataset.view === view);
+            });
+            
+            // Show/hide views
+            document.querySelectorAll('.view-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            document.getElementById(`${view}-view`).classList.remove('hidden');
+            
+            // Render current view
+            renderCurrentView();
+        }
+        
+        // Render current view
+        function renderCurrentView() {
+            switch (currentView) {
+                case 'table':
+                    renderTableView();
+                    break;
+                case 'analytics':
+                    renderAnalyticsView();
+                    break;
+            }
+        }
+        
+        // Update companies title based on filters
+        function updateCompaniesTitle() {
+            let title = 'All Companies';
+            
+            if (filters.status === 'fresh') {
+                title = 'Fresh Companies';
+            } else if (filters.status === 'visited') {
+                title = 'Visited Companies';
+            } else if (filters.status === 'saved') {
+                title = 'Saved Companies';
+            } else if (filters.status === 'applied') {
+                title = 'Applied Companies';
+            } else if (filters.status === 'not_interested') {
+                title = 'Not Interested';
+            } else if (filters.status === 'no_jobs_available') {
+                title = 'No Jobs Available';
+            }
+            
+            companiesTitle.textContent = title;
+        }
+        
+        // Render list view (formerly table view)
+        function renderTableView() {
+            updateCompaniesTitle();
+            
+            if (companies.length === 0) {
+                companiesList.innerHTML = `
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p>No companies found. Try adjusting your filters.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            companiesList.innerHTML = companies.map(company => {
+                // Get current status for this company
+                const currentStatus = company.status || '';
+                const isSaved = company.is_saved || false;
+                
+                return `
+                    <div class="company-row" onclick="showCompanyModal(${JSON.stringify(company).replace(/"/g, '&quot;')})">
+                        <div class="company-info">
+                            <div class="company-name-wrapper">
+                                <h3 class="company-name">${escapeHtml(company.name)}</h3>
+                                <span class="company-info-icon" onclick="showCompanyModal(${JSON.stringify(company).replace(/"/g, '&quot;')}, event)">i</span>
+                            </div>
+                            <div class="company-metadata">
+                                <span class="company-industry">${escapeHtml(company.industry || 'Not specified')}</span>
+                                <span class="metadata-divider">•</span>
+                                <span class="last-activity">${formatDate(company.last_visit_date || company.updated_at || company.created_at)}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="company-actions">
+                            <div class="status-selector" onclick="event.stopPropagation()">
+                                <button class="status-option ${currentStatus === 'applied' ? 'active' : ''}" 
+                                    onclick="updateStatus('${company.id}', 'applied')">
+                                    Applied
+                                </button>
+                                <button class="status-option ${currentStatus === 'not_interested' ? 'active' : ''}" 
+                                    onclick="updateStatus('${company.id}', 'not_interested')">
+                                    Not Interested
+                                </button>
+                                <button class="status-option ${currentStatus === 'no_jobs_available' ? 'active' : ''}" 
+                                    onclick="updateStatus('${company.id}', 'no_jobs_available')">
+                                    No Jobs
+                                </button>
+                            </div>
+                            
+                            <button class="save-button ${isSaved ? 'active' : ''}" 
+                                onclick="toggleSave('${company.id}', event)">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 13.5L8 9.5L4 13.5V3.5C4 3.10218 4.15804 2.72064 4.43934 2.43934C4.72064 2.15804 5.10218 2 5.5 2H10.5C10.8978 2 11.2794 2.15804 11.5607 2.43934C11.842 2.72064 12 3.10218 12 3.5V13.5Z" 
+                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>${isSaved ? 'Saved' : 'Save'}</span>
+                            </button>
+                            
+                            <button class="visit-button" onclick="visitCareerPage('${escapeHtml(company.career_page_url)}', '${company.id}'); event.stopPropagation();">
+                                <span>Visit Career Page</span>
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 8.66667V12.6667C12 13.0203 11.8595 13.3594 11.6095 13.6095C11.3594 13.8595 11.0203 14 10.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V5.33333C2 4.97971 2.14048 4.64057 2.39052 4.39052C2.64057 4.14048 2.97971 4 3.33333 4H7.33333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M10 2H14V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6.66669 9.33333L14 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Render analytics view with proper charts
+        function renderAnalyticsView() {
+            // Cleanup existing charts
+            Object.values(charts).forEach(chart => {
+                if (chart) chart.destroy();
+            });
+            
+            // Application Funnel Chart
+            if (analytics.statusBreakdown && analytics.statusBreakdown.length > 0) {
+                const ctx = document.getElementById('funnel-chart');
+                
+                // Clear previous content
+                ctx.innerHTML = '<canvas id="funnel-canvas" height="180"></canvas>';
+                const canvas = document.getElementById('funnel-canvas');
+                
+                const labels = analytics.statusBreakdown.map(item => formatStatusName(item.status));
+                const data = analytics.statusBreakdown.map(item => item.count);
+                const colors = ['#ef8354', '#4f5d75', '#2d3142', '#bfc0c0'];
+                
+                charts.funnel = new Chart(canvas, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Applications',
+                            data: data,
+                            backgroundColor: colors,
+                            borderColor: colors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                document.getElementById('funnel-chart').innerHTML = `
+                    <div class="empty-state">
+                        <p>No application data available yet.</p>
+                    </div>
+                `;
+            }
+            
+            // Industry Breakdown Chart
+            if (analytics.industryBreakdown && analytics.industryBreakdown.length > 0) {
+                const ctx = document.getElementById('industry-chart');
+                
+                // Clear previous content
+                ctx.innerHTML = '<canvas id="industry-canvas" height="180"></canvas>';
+                const canvas = document.getElementById('industry-canvas');
+                
+                const labels = analytics.industryBreakdown.slice(0, 5).map(item => item.industry || 'Other');
+                const data = analytics.industryBreakdown.slice(0, 5).map(item => item.count);
+                
+                charts.industry = new Chart(canvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                '#ef8354', '#4f5d75', '#2d3142', '#bfc0c0', '#f4a261'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    font: {
+                                        size: 10
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                document.getElementById('industry-chart').innerHTML = `
+                    <div class="empty-state">
+                        <p>No industry data available yet.</p>
+                    </div>
+                `;
+            }
+            
+            // Timeline Chart
+            if (analytics.timelineData && analytics.timelineData.length > 0) {
+                const ctx = document.getElementById('timeline-chart');
+                
+                // Clear previous content
+                ctx.innerHTML = '<canvas id="timeline-canvas" height="180"></canvas>';
+                const canvas = document.getElementById('timeline-canvas');
+                
+                // Sort by date
+                const sortedData = [...analytics.timelineData].sort((a, b) => 
+                    new Date(a.date) - new Date(b.date)
+                );
+                
+                const labels = sortedData.map(item => {
+                    const date = new Date(item.date);
+                    return date.toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric' 
+                    });
+                });
+                const data = sortedData.map(item => item.count);
+                
+                charts.timeline = new Chart(canvas, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Activity',
+                            data: data,
+                            backgroundColor: 'rgba(239, 131, 84, 0.2)',
+                            borderColor: '#ef8354',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                document.getElementById('timeline-chart').innerHTML = `
+                    <div class="empty-state">
+                        <p>No timeline data available yet.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Show modal with company information
+        function showCompanyModal(company, event) {
+            // Store the current company
+            currentModalCompany = company;
+            
+            // Update modal content
+            document.getElementById('modal-company-name').textContent = company.name;
+            document.getElementById('modal-industry-text').textContent = company.industry || 'Not specified';
+            document.getElementById('modal-company-description').textContent = company.description || 'No description available.';
+            document.getElementById('company-notes').value = company.notes || '';
+            
+            // Show the modal
+            document.getElementById('company-modal-overlay').classList.add('active');
+            
+            // Prevent click from propagating to parent elements
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            // Prevent scrolling on the body
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close the modal
+        function closeModal() {
+            document.getElementById('company-modal-overlay').classList.remove('active');
+            currentModalCompany = null;
+            
+            // Re-enable scrolling
+            document.body.style.overflow = '';
+        }
+        
+        // Check for pending application status updates
+        function checkPendingApplicationStatus() {
+            console.log('Checking for pending application status...');
+            
+            fetch(`${API_URL}/career/pending-status`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Pending status response:', data);
+                if (data.hasPending && data.pendingCompany) {
+                    showApplicationStatusLightbox(data.pendingCompany);
+                }
+            })
+            .catch(error => console.error('Error checking pending status:', error));
+        }
+        
+        // Show application status lightbox
+        function showApplicationStatusLightbox(company) {
+            // Store the current company
+            currentLightboxCompany = company;
+            
+            // Update lightbox content
+            document.getElementById('status-company-name').textContent = company.name;
+            document.getElementById('status-message').textContent = `We noticed you visited ${company.name}'s career page. Did you apply?`;
+            
+            // Show the lightbox
+            document.getElementById('status-lightbox').classList.add('active');
+            
+            // Prevent scrolling on the body
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close the status lightbox
+        function closeStatusLightbox() {
+            document.getElementById('status-lightbox').classList.remove('active');
+            currentLightboxCompany = null;
+            
+            // Re-enable scrolling
+            document.body.style.overflow = '';
+        }
+        
+        // Update status from lightbox and close
+        function updateStatusAndClose(status) {
+            if (currentLightboxCompany) {
+                updateStatus(currentLightboxCompany.id, status);
+                closeStatusLightbox();
+            }
+        }
+        
+        // Save notes for a company
+        function saveCompanyNotes() {
+            if (!currentModalCompany) return;
+            
+            const notes = document.getElementById('company-notes').value;
+            
+            fetch(`${API_URL}/career/update-notes`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    companyId: currentModalCompany.id,
+                    notes: notes
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Notes saved successfully');
+                    
+                    // Update company in local state
+                    const company = companies.find(c => c.id === currentModalCompany.id);
+                    if (company) {
+                        company.notes = notes;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error saving notes:', error);
+                showNotification('Failed to save notes', 'error');
+            });
+        }
+        
+        // Toggle save status for a company
+        function toggleSave(companyId, event) {
+            if (event) event.stopPropagation();
+            
+            fetch(`${API_URL}/career/toggle-save`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ companyId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update UI
+                    const button = event.currentTarget;
+                    const isSaved = data.isSaved;
+                    button.classList.toggle('active', isSaved);
+                    button.querySelector('span').textContent = isSaved ? 'Saved' : 'Save';
+                    
+                    // Update company in local state
+                    const company = companies.find(c => c.id === companyId);
+                    if (company) {
+                        company.is_saved = isSaved;
+                    }
+                    
+                    showNotification(isSaved ? 'Company saved' : 'Company unsaved');
+                    
+                    // Refresh data if needed
+                    if (filters.status === 'saved') {
+                        loadCompanies();
+                    }
+                    
+                    // Update saved count in stats
+                    loadApplications().then(() => updateStats());
+                }
+            })
+            .catch(error => {
+                console.error('Error toggling save:', error);
+                showNotification('Failed to update save status', 'error');
+            });
+        }
+        
+        // Update status directly
+        async function updateStatus(companyId, status) {
+            try {
+                showLoadingState();
+                
+                const response = await makeApiCall(`${API_URL}/career/update-status`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        companyId: companyId,
+                        status: status,
+                        notes: ''
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification(`Status updated to "${formatStatusName(status)}"`);
+                    
+                    // Update the company in local state
+                    const company = companies.find(c => c.id === companyId);
+                    if (company) {
+                        company.status = status;
+                    }
+                    
+                    // Refresh data
+                    await loadApplications();
+                    await loadAnalytics();
+                    updateStats();
+                    
+                    // Reload companies if we're filtering by status
+                    if (filters.status !== 'all') {
+                        await loadCompanies();
+                    } else {
+                        renderTableView();
+                    }
+                    
+                    // If in analytics view, update charts
+                    if (currentView === 'analytics') {
+                        renderAnalyticsView();
+                    }
+                } else {
+                    showNotification(data.error || 'Failed to update status', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+                showNotification('Failed to update status', 'error');
+            } finally {
+                hideLoadingState();
+            }
+        }
+        
+        // Track visit
+        function trackVisit(companyId) {
+            makeApiCall(`${API_URL}/career/track-visit`, {
+                method: 'POST',
+                body: JSON.stringify({ companyId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Visit tracked successfully');
+                    
+                    // Set the flag to check for pending applications when we return
+                    pendingCheckNeeded = true;
+                }
+            })
+            .catch(error => console.error('Error tracking visit:', error));
+        }
+        
+        // Visit career page
+        function visitCareerPage(url, companyId) {
+            trackVisit(companyId);
+            window.open(url, '_blank');
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationTitle = notification.querySelector('.notification-title');
+            const notificationMessage = document.getElementById('notification-message');
+            
+            // Update notification content
+            notificationTitle.textContent = type === 'success' ? 'Success' : 'Error';
+            notificationMessage.textContent = message;
+            
+            // Update notification class
+            notification.className = `notification notification-${type}`;
+            notification.classList.add('show');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Helper functions
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            
+            // Less than 1 hour
+            if (diff < 60 * 60 * 1000) {
+                const minutes = Math.floor(diff / (60 * 1000));
+                return minutes < 1 ? 'Just now' : `${minutes}m ago`;
+            }
+            
+            // Less than 24 hours
+            if (diff < 24 * 60 * 60 * 1000) {
+                const hours = Math.floor(diff / (60 * 60 * 1000));
+                return `${hours}h ago`;
+            }
+            
+            // Less than 7 days
+            if (diff < 7 * 24 * 60 * 60 * 1000) {
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                return days[date.getDay()];
+            }
+            
+            // Format as date
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${months[date.getMonth()]} ${date.getDate()}`;
+        }
+        
+        function formatStatusName(status) {
+            if (!status) return 'Pending';
+            
+            const names = {
+                'applied': 'Applied',
+                'not_interested': 'Not Interested', 
+                'no_jobs_available': 'No Jobs Available'
+            };
+            
+            return names[status] || 'Unknown';
+        }
+        
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') return unsafe;
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+        
+        // Make functions globally accessible
+        window.updateStatus = updateStatus;
+        window.trackVisit = trackVisit;
+        window.visitCareerPage = visitCareerPage;
+        window.showCompanyModal = showCompanyModal;
+        window.closeModal = closeModal;
+        window.toggleSave = toggleSave;
+        window.updateStatusAndClose = updateStatusAndClose;
+        window.closeStatusLightbox = closeStatusLightbox;
+    </script>
+</body>
+</html>
